@@ -40,3 +40,16 @@ bash scripts/train.sh \
 A run earns a public learning claim only when fixed held-out loss improves and
 its log records hardware, exact commit, complete command, elapsed time, sample
 count, IDR receipt, and train/evaluation overlap receipt.
+
+## Invalidated pre-uniqueness runs
+
+Runs through commit `18ae4d4` used random clue masks without counting puzzle
+solutions. A deterministic census of 1,000 generated 36-blank puzzles found
+665 with exactly one solution and at least 322 with multiple solutions. Those
+runs remain useful backend and optimization mechanics, but their exact-solve
+rate cannot measure whether a model solved the observable puzzle: the hidden
+target was sometimes only one of several valid completions.
+
+Commit `0f55ad7` moves uniqueness into the generator contract. Every delivered
+puzzle is now rejection-sampled until an exact solver counts one solution. All
+accuracy and solve-rate claims must use that commit or a descendant.
