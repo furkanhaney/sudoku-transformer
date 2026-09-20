@@ -1,214 +1,165 @@
-# Sudoku Transformer Project
+# Sudoku Transformer
 
-![Python](https://img.shields.io/badge/python-3.13+-blue.svg)
-![PyTorch](https://img.shields.io/badge/PyTorch-2.5.0+-ee4c2c.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+[![Rust 1.89+](https://img.shields.io/badge/Rust-1.89%2B-b7410e?logo=rust)](https://www.rust-lang.org/)
+[![Axis](https://img.shields.io/badge/framework-Axis-5b5bd6)](https://gitlab.com/furkanhaney/axis)
+[![CUDA 13.2](https://img.shields.io/badge/CUDA-13.2-76b900?logo=nvidia)](https://developer.nvidia.com/cuda-toolkit)
+[![MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-![](img/sample_puzzle.png)
+![A Sudoku board from the generated training stream](img/axis_generated_puzzle.png)
 
-A PyTorch implementation of a GPT-2 style non-causal transformer for solving Sudoku puzzles. The model reaches 99.95% accuracy and solves 98.92% of puzzles completely correctly in the validation set.
+A bidirectional transformer that learns to fill Sudoku blanks, written in Rust
+on [Axis](https://gitlab.com/furkanhaney/axis).
 
-> **Note:** While backtracking algorithms can solve Sudoku puzzles extremely fast (microseconds), this project serves as an important case study in ML research for understanding the strengths and limitations of transformer architectures. It provides insights into how transformers learn constraint satisfaction problems, their sample efficiency across different model scales, and emergent capabilities in structured reasoning tasks.
+Sudoku is small enough to understand completely and rich enough to test a real
+model stack. Every prediction must respect row, column, and box constraints;
+the useful answer depends on the whole board; and exact puzzle solves expose
+mistakes that per-cell accuracy can hide.
 
-## Results
+The project began as a Python + PyTorch experiment in 2025. The 2026 version
+replaces that implementation entirely:
 
-Models of 3 different sizes are trained:
-- **Small (25M)**: 6 layers, 384 embedding, 6 heads
-- **Medium (40M)**: 8 layers, 512 embedding, 8 heads
-- **Large (80M)**: 12 layers, 768 embedding, 12 heads
-
-Each was trained for 100,000 iterations with a batch size of 256 on a RTX 3090 GPU, with the longest run taking about 12 hours. We reach a maximum accuracy of 99.95% solving 98.92% of puzzles completely with the largest model. We can see scaling laws in action in the graphs.
-
-**Training Cost:** All three experiments were run on a rented RTX 3090 machine via [Vast.ai](https://vast.ai) at $0.210/hour for approximately 20 hours total, costing around $4.20 for the complete set of experiments.
-
-![](img/loss_iter_200m.png)
-
-We can see some overfitting on the largest model despite our relabeling augmentation.
-
-![](img/valid_loss_time.png)
-
-The medium model surpasses the small model in about 1 hour while the large model surpasses the medium model in about 3 hours on a 3090 GPU.
-
-![](img/valid_loss_iter.png)
-
-Bigger models learn faster on a per-sample basis, demonstrating higher sample efficiency.
-
-## Dataset
-
-The dataset is the "1 million Sudoku games" from Kaggle: https://www.kaggle.com/datasets/bryanpark. The data is split into training and validation sets with 10,000 validation examples. The data is processed from csv into npz format with np.uint8 data type.
-
-- **Training set**: 990,000 puzzles
-- **Validation set**: 10,000 puzzles
-- **Format**: 81 **np.uint8** digits (0-9) where 0 represents empty cells
-
-![](img/hint_numbers.png)
-
-![](img/hint_distribution.png)
-
-## Model Architecture
-
-- **Type**: GPT-2 style transformer without causal masking (bidirectional attention)
-- **Input**: Token embeddings (vocab size 10 for digits 0-9) + positional embeddings (81 positions)
-- **Output**: Per-position classification into 9 classes (digits 1-9)
-- **Loss**: CrossEntropyLoss computed only on non-hint positions (configurable via `mask_hints`)
-
-### Data Augmentation
-
-- **Relabeling**: Random permutation of digits 1-9 during training
-  - Example: All 1s → 5s, all 2s → 7s, etc.
-  - Preserves Sudoku structure while increasing data diversity
-
-## Project Structure
-
+```text
+Python + PyTorch  →  Rust + Axis
+fixed Kaggle file →  generated stream of valid boards
+implicit epochs   →  executable data-regime assertions
 ```
-sudoku/
-├── config/
-│   ├── gpt2_sm.json           # Small model configuration (25M params)
-│   ├── gpt2_md.json           # Medium model configuration (40M params)
-│   ├── gpt2_lg.json           # Large model configuration (80M params)
-│   └── gpt2_xl.json           # Extra-large model configuration
-├── data/
-│   ├── sudoku.csv             # Raw dataset (1M puzzles)
-│   └── sudoku.npz             # Processed data (train/valid splits)
-├── img/                       # Training result visualizations
-├── models/
-│   └── {experiment_name}/     # Experiment outputs
-│       ├── config.json        # Copied config
-│       ├── metrics.csv        # Training metrics
-│       └── best_model.pt      # Best checkpoint by validation loss
-├── notebooks/
-│   ├── analyze.ipynb          # Results analysis and visualization
-│   └── explore.ipynb          # Dataset exploration
+
+## Current experiment
+
+The model keeps the original GPT-2-style structure without causal masking:
+
+```mermaid
+flowchart LR
+    A[81 puzzle tokens] --> B[Token + position embeddings]
+    B --> C[Pre-LayerNorm]
+    C --> D[Bidirectional multi-head attention]
+    D --> E[Residual]
+    E --> F[Pre-LayerNorm]
+    F --> G[4x GELU feed-forward]
+    G --> H[Residual]
+    H --> I[9 logits per position]
+    I --> J[Cross-entropy on blanks only]
+```
+
+The training source creates a valid completed grid, permutes digits, bands,
+rows, stacks, and columns, then samples a fresh clue mask. It never needs to
+wrap around a dataset. Training and evaluation use separate generator seeds and
+separate identity namespaces.
+
+Axis checks those claims while the model runs:
+
+```text
+samples consumed:      50
+unique sample IDs:     50
+observed reuse:         0.0000%
+train/eval overlap:     0
+```
+
+The first bounded Rust run used a 3,129-parameter model and only 50 fresh boards.
+Held-out blank-only loss fell from `2.8734` to `2.2069`. Blank accuracy remained
+near chance and no evaluation puzzle was solved completely, so this establishes
+the end-to-end training path rather than a Sudoku-solving result.
+
+![First bounded Axis training run](img/axis_acceptance_25.png)
+
+## Historical result
+
+The original PyTorch study trained 25M, 40M, and 80M models for 100,000 updates
+on a fixed one-million-puzzle corpus. Its largest run reported **99.95% cell
+accuracy** and **98.92% completely solved validation puzzles**. Those are useful
+reference numbers, not results from the new Axis implementation.
+
+![Historical PyTorch training and validation loss](img/loss_iter_200m.png)
+
+The current research question is whether a continuously generated stream changes
+the scaling picture when memorizing a finite puzzle file is removed from the
+experiment.
+
+## Run it
+
+Requirements:
+
+- Linux with an NVIDIA GPU supported by cuTile
+- Rust 1.89 or newer
+- `libclang`
+- CUDA 13.2
+
+Install a repository-local CUDA toolkit when needed:
+
+```bash
+python3 scripts/setup_cuda.py
+```
+
+Then run the complete bounded acceptance:
+
+```bash
+bash scripts/check.sh
+```
+
+Or choose the experiment directly:
+
+```bash
+# Three updates, two fresh boards per update
+bash scripts/train.sh --smoke
+
+# Local research baseline
+bash scripts/train.sh \
+  --steps 100 \
+  --batch 4 \
+  --eval-size 16 \
+  --embedding 24 \
+  --heads 4 \
+  --layers 2 \
+  --blanks 36 \
+  --learning-rate 1e-3 \
+  --weight-decay 1e-2
+```
+
+Every run reports:
+
+- blank-only cross-entropy;
+- accuracy over cells that were blank in the input;
+- exact whole-puzzle solve rate;
+- observed sample identities and reuse;
+- train/evaluation identity overlap; and
+- wall-clock time and parameter count.
+
+## Project structure
+
+```text
+sudoku-transformer/
 ├── src/
-│   ├── data.py                # Dataset and dataloader implementation
-│   ├── gpt.py                 # GPT model architecture
-│   ├── main.py                # Training script
-│   ├── process.py             # Data preprocessing
-│   ├── training.py            # Training loop and metrics
-│   └── utils.py               # Config classes and utilities
-├── LICENSE                    # MIT License
-├── pyproject.toml             # Python project configuration
-└── README.md
+│   ├── main.rs              generated data, training, metrics, receipts
+│   └── model.rs             embeddings and bidirectional Transformer
+├── docs/
+│   └── migration.md         preserved contract and current differences
+├── models/
+│   ├── axis_tiny_00/        first Rust + Axis run
+│   └── gpt2_*/              historical PyTorch metrics
+├── img/                     boards and measured learning curves
+├── scripts/
+│   ├── setup_cuda.py        verified local CUDA 13.2 install
+│   ├── cargo.sh             reproducible Cargo/CUDA launcher
+│   ├── train.sh             training entry point
+│   └── check.sh             format, lint, tests, GPU smoke
+├── Cargo.toml               Axis pinned by exact Git revision
+└── Cargo.lock
 ```
 
-## Setup
+The generator is tested independently: every row, column, and 3×3 box contains
+1–9 exactly once; every puzzle has the declared number of blanks; and every clue
+matches its solution. The migration contract and remaining claim boundaries are
+in [docs/migration.md](docs/migration.md).
 
-1. Install dependencies using `uv`:
-```bash
-uv sync
-```
+## Why Axis?
 
-2. Download the dataset from Kaggle and place `sudoku.csv` in the `data/` directory.
+A tensor shaped `[batch, 81, 9]` is easy to flatten incorrectly. Axis gives
+`batch`, `position`, and `digit` distinct identities, so the model says which
+axis attention contracts, which axis softmax normalizes, and which axis
+cross-entropy classifies.
 
-3. Process the dataset:
-```bash
-uv run python src/process.py
-```
-
-This will create `data/sudoku.npz` with train/validation splits.
-
-## Training
-
-Start training with the default configuration:
-```bash
-uv run python src/main.py
-```
-
-Or specify a custom config:
-```bash
-uv run python src/main.py --config config/my_config.json
-```
-
-### Configuration
-
-Example configuration (`config/gpt2_sm.json`):
-```json
-{
-  "experiment_name": "gpt2_sm_00",
-  "max_iters": 100000,
-  "batch_size": 256,
-  "num_workers": 4,
-  "learning_rate": 1e-4,
-  "eval_interval": 500,
-  "n_embd": 384,
-  "n_layer": 6,
-  "n_head": 6,
-  "dropout": 0,
-  "mask_hints": true,
-  "use_compile": true,
-  "compile_mode": "reduce-overhead"
-}
-```
-
-**Configuration Parameters:**
-- `experiment_name`: Name of the experiment (used for output directory)
-- `max_iters`: Maximum training iterations
-- `batch_size`: Batch size for training and validation
-- `num_workers`: Number of data loader workers
-- `learning_rate`: Learning rate for AdamW optimizer
-- `eval_interval`: Evaluate on validation set every N iterations
-- `mask_hints`: If `true`, only compute loss on non-hint positions (where input == 0). If `false`, compute loss on all 81 positions (default: `false`)
-- `n_embd`: Embedding dimension
-- `n_layer`: Number of transformer layers
-- `n_head`: Number of attention heads
-- `dropout`: Dropout probability
-- `use_compile`: Enable PyTorch 2.0+ compilation for faster training (default: `true`)
-- `compile_mode`: Compilation mode - "default", "reduce-overhead", or "max-autotune" (default: `"reduce-overhead"`)
-
-### Metrics
-
-The training loop tracks:
-- **loss**: CrossEntropyLoss computed on all 81 positions (when `mask_hints=false`) or only on non-hint positions (when `mask_hints=true`)
-- **acc**: Accuracy on non-hint positions only (where input == 0)
-- **acc_full**: Per-puzzle accuracy (1.0 if all 81 positions correct, 0.0 otherwise)
-
-Both training and validation metrics are saved to `models/{experiment_name}/metrics.csv`.
-
-## Model Checkpointing
-
-- Best model (by validation loss) is saved to `models/{experiment_name}/best_model.pt`
-- Checkpoint includes:
-  - Model state dict
-  - Optimizer state dict
-  - Iteration number
-  - Validation loss
-
-## Implementation Details
-
-### Input/Output Format
-- **Input**: `(batch_size, 81)` integers 0-9
-- **Output**: `(batch_size, 81, 9)` logits for classes 0-8 (representing digits 1-9)
-- **Targets**: Solution digits 1-9 converted to class labels 0-8
-
-### Key Features
-- Bidirectional attention (no causal masking)
-- Relabeling augmentation for training data
-- Optional hint masking: compute loss only on non-hint positions via `mask_hints` config
-- Exponential moving average (EMA) for training metrics
-- Arithmetic mean for validation metrics
-- Automatic experiment directory management
-- Best model checkpointing
-
-## Dependencies
-
-- Python >= 3.13
-- PyTorch >= 2.5.0
-- NumPy >= 2.0.0
-- Pandas >= 2.2.0
-- tqdm >= 4.66.0
-- torchmetrics >= 1.5.0
-- pydantic >= 2.0.0
-- ipykernel >= 7.1.0 (for notebooks)
-- matplotlib >= 3.10.7 (for visualization)
-
-All dependencies are managed via `uv` and specified in [pyproject.toml](pyproject.toml).
-
-## Notebooks
-
-The project includes Jupyter notebooks for analysis and exploration:
-- [notebooks/analyze.ipynb](notebooks/analyze.ipynb) - Training results analysis and visualization
-- [notebooks/explore.ipynb](notebooks/explore.ipynb) - Dataset exploration and statistics
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+The same principle applies above the tensor level. `masked_mean` refuses a
+nonbinary or empty blank mask. `assert_idr()` refuses a repeated sample identity.
+The disjointness guard refuses a board identity that appears in both training
+and evaluation. The goal is an experiment that fails loudly when it stops being
+the experiment described here.

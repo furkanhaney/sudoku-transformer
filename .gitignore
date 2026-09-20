@@ -1,0 +1,6 @@
+/.cuda/
+/target/
+/runs/
+/data/
+*.pt
+*.npz

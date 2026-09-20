@@ -1,0 +1,47 @@
+    Finished `release` profile [optimized] target(s) in 0.06s
+     Running `target/release/axis-sudoku --steps 25 --batch 2`
+model tiny-bidirectional-transformer parameters=3129
+initial eval_loss=2.873419 blank_accuracy=12.50% solved=0.00%
+step=1 samples=2 pre_update_loss=2.978234
+step=2 samples=4 pre_update_loss=2.627515
+step=3 samples=6 pre_update_loss=2.417432
+step=4 samples=8 pre_update_loss=2.728422
+step=5 samples=10 pre_update_loss=2.578644
+step=6 samples=12 pre_update_loss=2.313549
+step=7 samples=14 pre_update_loss=2.198985
+step=8 samples=16 pre_update_loss=2.309431
+step=9 samples=18 pre_update_loss=2.303696
+step=10 samples=20 pre_update_loss=2.285238
+step=11 samples=22 pre_update_loss=2.253167
+step=12 samples=24 pre_update_loss=2.254304
+step=13 samples=26 pre_update_loss=2.282487
+step=14 samples=28 pre_update_loss=2.226745
+step=15 samples=30 pre_update_loss=2.229101
+step=16 samples=32 pre_update_loss=2.270207
+step=17 samples=34 pre_update_loss=2.252052
+step=18 samples=36 pre_update_loss=2.204506
+step=19 samples=38 pre_update_loss=2.269582
+step=20 samples=40 pre_update_loss=2.240119
+step=21 samples=42 pre_update_loss=2.205478
+step=22 samples=44 pre_update_loss=2.241602
+step=23 samples=46 pre_update_loss=2.231418
+step=24 samples=48 pre_update_loss=2.216084
+step=25 samples=50 pre_update_loss=2.232802
+final eval_loss=2.206874 blank_accuracy=12.85% solved=0.00% elapsed_s=17.04
+IDR STATUS
+
+samples consumed:      50
+unique sample IDs:     50
+available population:  generated stream
+observed reuse:         0.0000%
+max observed reuse:     0.0000%
+
+PASS
+TRAIN/EVALUATION DISJOINTNESS
+
+unique training IDs:    50
+unique evaluation IDs:  8
+observed overlap:        0
+
+PASS
+PASS: bidirectional Sudoku transformer trained on fresh generated boards
