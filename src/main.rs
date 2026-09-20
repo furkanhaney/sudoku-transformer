@@ -39,10 +39,87 @@ impl Rng {
     }
 }
 
+fn solution_count(puzzle: &[u8; 81], limit: usize) -> usize {
+    const DIGITS: u16 = 0b11_1111_1110;
+    fn search(
+        board: &mut [u8; 81],
+        rows: &mut [u16; 9],
+        columns: &mut [u16; 9],
+        boxes: &mut [u16; 9],
+        limit: usize,
+    ) -> usize {
+        let mut choice = None;
+        let mut candidates = 0_u16;
+        let mut fewest = u32::MAX;
+        for (position, value) in board.iter().enumerate() {
+            if *value != 0 {
+                continue;
+            }
+            let row = position / 9;
+            let column = position % 9;
+            let box_index = row / 3 * 3 + column / 3;
+            let available = DIGITS & !(rows[row] | columns[column] | boxes[box_index]);
+            let count = available.count_ones();
+            if count == 0 {
+                return 0;
+            }
+            if count < fewest {
+                choice = Some(position);
+                candidates = available;
+                fewest = count;
+            }
+        }
+        let Some(position) = choice else {
+            return 1;
+        };
+        let row = position / 9;
+        let column = position % 9;
+        let box_index = row / 3 * 3 + column / 3;
+        let mut total = 0;
+        while candidates != 0 && total < limit {
+            let bit = candidates & candidates.wrapping_neg();
+            candidates ^= bit;
+            board[position] = bit.trailing_zeros() as u8;
+            rows[row] |= bit;
+            columns[column] |= bit;
+            boxes[box_index] |= bit;
+            total += search(board, rows, columns, boxes, limit - total);
+            rows[row] ^= bit;
+            columns[column] ^= bit;
+            boxes[box_index] ^= bit;
+            board[position] = 0;
+        }
+        total
+    }
+
+    let mut board = *puzzle;
+    let mut rows = [0_u16; 9];
+    let mut columns = [0_u16; 9];
+    let mut boxes = [0_u16; 9];
+    for (position, value) in board.iter().copied().enumerate() {
+        if value == 0 {
+            continue;
+        }
+        let bit = 1_u16 << value;
+        let row = position / 9;
+        let column = position % 9;
+        let box_index = row / 3 * 3 + column / 3;
+        if rows[row] & bit != 0 || columns[column] & bit != 0 || boxes[box_index] & bit != 0 {
+            return 0;
+        }
+        rows[row] |= bit;
+        columns[column] |= bit;
+        boxes[box_index] |= bit;
+    }
+    search(&mut board, &mut rows, &mut columns, &mut boxes, limit)
+}
+
 impl SudokuGenerator {
     fn new(seed: u64, blanks: usize) -> Result<Self> {
-        if !(1..81).contains(&blanks) {
-            return Err("Sudoku blank count must be within 1..81".into());
+        if !(1..=50).contains(&blanks) {
+            return Err(
+                "Sudoku blank count must be within 1..=50 for bounded unique generation".into(),
+            );
         }
         Ok(Self {
             seed,
@@ -84,13 +161,18 @@ impl SudokuGenerator {
                 solution[output_row * 9 + output_column] = digits[canonical];
             }
         }
-        let mut positions = std::array::from_fn::<_, 81, _>(|index| index);
-        rng.shuffle(&mut positions);
-        let mut puzzle = solution;
-        for &position in &positions[..self.blanks] {
-            puzzle[position] = 0;
+        for _ in 0..10_000 {
+            let mut positions = std::array::from_fn::<_, 81, _>(|index| index);
+            rng.shuffle(&mut positions);
+            let mut puzzle = solution;
+            for &position in &positions[..self.blanks] {
+                puzzle[position] = 0;
+            }
+            if solution_count(&puzzle, 2) == 1 {
+                return SudokuSample { puzzle, solution };
+            }
         }
-        SudokuSample { puzzle, solution }
+        panic!("unique Sudoku mask search exhausted its deterministic attempt budget")
     }
 }
 
@@ -469,7 +551,7 @@ mod tests {
     }
 
     #[test]
-    fn generated_boards_are_valid_and_have_exact_blank_count() -> Result<()> {
+    fn generated_boards_are_valid_unique_and_have_exact_blank_count() -> Result<()> {
         let generator = SudokuGenerator::new(7, 36)?;
         for id in 0..100 {
             let sample = generator.generate(id);
@@ -485,6 +567,7 @@ mod tests {
                     .zip(sample.solution)
                     .all(|(&puzzle, solution)| puzzle == 0 || puzzle == solution)
             );
+            assert_eq!(solution_count(&sample.puzzle, 2), 1);
         }
         Ok(())
     }

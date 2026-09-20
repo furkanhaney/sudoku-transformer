@@ -42,8 +42,9 @@ flowchart LR
 ```
 
 The training source creates a valid completed grid, permutes digits, bands,
-rows, stacks, and columns, then samples a fresh clue mask. It never needs to
-wrap around a dataset. Training and evaluation use separate generator seeds and
+rows, stacks, and columns, then rejection-samples a fresh clue mask until an
+exact bounded solver proves the puzzle has one solution. It never needs to wrap
+around a dataset. Training and evaluation use separate generator seeds and
 separate identity namespaces.
 
 Axis checks those claims while the model runs:
@@ -157,9 +158,9 @@ sudoku-transformer/
 ```
 
 The generator is tested independently: every row, column, and 3×3 box contains
-1–9 exactly once; every puzzle has the declared number of blanks; and every clue
-matches its solution. The migration contract and remaining claim boundaries are
-in [docs/migration.md](docs/migration.md).
+1–9 exactly once; every puzzle has the declared number of blanks and exactly one
+solution; and every clue matches that solution. The migration contract and
+remaining claim boundaries are in [docs/migration.md](docs/migration.md).
 
 ## Why Axis?
 
