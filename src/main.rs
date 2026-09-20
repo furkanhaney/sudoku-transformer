@@ -331,6 +331,7 @@ fn main() -> Result<()> {
     let mut layers = 2_usize;
     let mut learning_rate = 1e-3_f32;
     let mut weight_decay = 0.01_f32;
+    let mut bf16 = false;
     let mut args = env::args().skip(1);
     while let Some(arg) = args.next() {
         match arg.as_str() {
@@ -343,6 +344,7 @@ fn main() -> Result<()> {
                 layers = 1;
                 learning_rate = 3e-3;
             }
+            "--bf16" => bf16 = true,
             "--steps" => steps = args.next().ok_or("--steps needs a value")?.parse()?,
             "--batch" => batch_size = args.next().ok_or("--batch needs a value")?.parse()?,
             "--blanks" => blanks = args.next().ok_or("--blanks needs a value")?.parse()?,
@@ -375,7 +377,7 @@ fn main() -> Result<()> {
                      [--eval-size N] [--eval-batch N] [--eval-every N]
                      [--audit-size N] [--log-every N]
                      [--blanks N] [--embedding N] [--heads N] [--layers N]
-                     [--learning-rate F] [--weight-decay F]"#
+                     [--learning-rate F] [--weight-decay F] [--bf16]"#
                 );
                 return Ok(());
             }
@@ -395,7 +397,11 @@ fn main() -> Result<()> {
         return Err("audit size must be positive when requested".into());
     }
 
-    let device = Device::cuda(0)?;
+    let device = if bf16 {
+        Device::cuda_bf16(0)?
+    } else {
+        Device::cuda(0)?
+    };
     let mut model = SudokuTransformer::new(embedding, heads, layers)?;
     let input_shape = Shape::new([
         model.axes().batch.of(batch_size),
@@ -409,7 +415,8 @@ fn main() -> Result<()> {
         .map(|parameter| parameter.tensor().shape().len())
         .sum();
     println!(
-        "model bidirectional-transformer layers={layers} embedding={embedding} heads={heads} parameters={parameters}"
+        "model bidirectional-transformer layers={layers} embedding={embedding} heads={heads} parameters={parameters} matrix_precision={} accumulator_precision=fp32",
+        if bf16 { "bf16" } else { "fp32" }
     );
 
     let mut train = DataLoader::new(SudokuGenerator::new(TRAIN_SEED, blanks)?, batch_size)?

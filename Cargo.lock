@@ -35,7 +35,7 @@ checksum = "f2032f911046de80f0a198e0901378627c33f59ea0ac00e363d481118bd70a53"
 [[package]]
 name = "axis"
 version = "0.1.0"
-source = "git+https://gitlab.com/furkanhaney/axis.git?rev=767326049ef661e226a074f3fe551ebcd98613bf#767326049ef661e226a074f3fe551ebcd98613bf"
+source = "git+https://gitlab.com/furkanhaney/axis.git?rev=9ba184db70cd7e5003a683bf9ed779b77bf2764b#9ba184db70cd7e5003a683bf9ed779b77bf2764b"
 dependencies = [
  "cutile",
 ]

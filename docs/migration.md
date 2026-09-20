@@ -17,8 +17,10 @@ Preserved in the acceptance path:
 - separate training and evaluation populations.
 
 The bounded Axis configuration is deliberately smaller. It uses tanh-approximated
-GELU, f32 throughout, a generated stream in place of the fixed Kaggle corpus,
-and no dropout or compilation. The generator supplies an IDR acceptance that
+GELU, a generated stream in place of the fixed Kaggle corpus, and no dropout.
+The default path is FP32 throughout; `--bf16` rounds matrix-product inputs to
+BF16 while retaining FP32 accumulation and FP32 optimizer state. The generator
+supplies an IDR acceptance that
 the finite source cannot: every delivered draw has a fresh stable identity,
 train/evaluation seeds occupy disjoint identity namespaces, and both guards
 emit receipts. This proves the declared operational regime, not independence

@@ -118,6 +118,10 @@ bash scripts/train.sh \
   --weight-decay 1e-2
 ```
 
+Add `--bf16` to round matrix-product inputs to BF16 while retaining FP32
+accumulation, parameters, reductions, gradients, and AdamW state. The selected
+precision is printed in the run receipt.
+
 Every run reports:
 
 - blank-only cross-entropy;
