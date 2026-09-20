@@ -44,8 +44,9 @@ flowchart LR
 The training source creates a valid completed grid, permutes digits, bands,
 rows, stacks, and columns, then rejection-samples a fresh clue mask until an
 exact bounded solver proves the puzzle has one solution. It never needs to wrap
-around a dataset. Axis canonicalizes each clue board under digit relabeling and
-compares that problem identity across training, tuning, and final audit data.
+around a dataset. The program canonicalizes each clue board under digit
+relabeling, then Axis compares that supplied identity across training, tuning,
+and final audit data.
 
 Axis checks those claims while the model runs:
 
