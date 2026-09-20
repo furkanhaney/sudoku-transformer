@@ -260,9 +260,10 @@ fn metrics(
     let (inputs, targets, blanks) = tensors(samples, axes, device)?;
     let logits_tensor = model.forward(&inputs)?;
     let loss = masked_loss(&logits_tensor, &targets, &blanks, axes)?.item()?;
+    let blank_accuracy = logits_tensor
+        .masked_categorical_accuracy(&targets, &blanks, axes.class)?
+        .fraction();
     let logits = logits_tensor.to_vec()?;
-    let mut correct = 0_usize;
-    let mut blanks_total = 0_usize;
     let mut solved = 0_usize;
     for (batch, sample) in samples.iter().enumerate() {
         let mut complete = true;
@@ -270,7 +271,6 @@ fn metrics(
             if sample.puzzle[position] != 0 {
                 continue;
             }
-            blanks_total += 1;
             let start = (batch * 81 + position) * 9;
             let predicted = logits[start..start + 9]
                 .iter()
@@ -279,16 +279,11 @@ fn metrics(
                 .map(|(index, _)| index + 1)
                 .unwrap();
             let matches = predicted == usize::from(sample.solution[position]);
-            correct += usize::from(matches);
             complete &= matches;
         }
         solved += usize::from(complete);
     }
-    Ok((
-        loss,
-        correct as f32 / blanks_total as f32,
-        solved as f32 / samples.len() as f32,
-    ))
+    Ok((loss, blank_accuracy, solved as f32 / samples.len() as f32))
 }
 
 fn metrics_chunked(
@@ -332,6 +327,7 @@ fn main() -> Result<()> {
     let mut learning_rate = 1e-3_f32;
     let mut weight_decay = 0.01_f32;
     let mut bf16 = false;
+    let mut profile_steps = false;
     let mut args = env::args().skip(1);
     while let Some(arg) = args.next() {
         match arg.as_str() {
@@ -345,6 +341,7 @@ fn main() -> Result<()> {
                 learning_rate = 3e-3;
             }
             "--bf16" => bf16 = true,
+            "--profile-steps" => profile_steps = true,
             "--steps" => steps = args.next().ok_or("--steps needs a value")?.parse()?,
             "--batch" => batch_size = args.next().ok_or("--batch needs a value")?.parse()?,
             "--blanks" => blanks = args.next().ok_or("--blanks needs a value")?.parse()?,
@@ -377,7 +374,8 @@ fn main() -> Result<()> {
                      [--eval-size N] [--eval-batch N] [--eval-every N]
                      [--audit-size N] [--log-every N]
                      [--blanks N] [--embedding N] [--heads N] [--layers N]
-                     [--learning-rate F] [--weight-decay F] [--bf16]"#
+                     [--learning-rate F] [--weight-decay F] [--bf16]
+                     [--profile-steps]"#
                 );
                 return Ok(());
             }
@@ -463,10 +461,18 @@ fn main() -> Result<()> {
         let batch = train.next_batch()?.expect("generated training batch");
         disjoint.observe_train(batch.sample_ids.iter().copied())?;
         let (inputs, targets, blanks) = tensors(&batch.samples, model.axes(), &device)?;
+        let step_started = Instant::now();
         let report = trainer.step(&mut model, |model| {
             let logits = model.forward(&inputs)?;
             masked_loss(&logits, &targets, &blanks, model.axes())
         })?;
+        if profile_steps {
+            println!(
+                "timing step={} trainer_ms={:.3}",
+                report.step(),
+                step_started.elapsed().as_secs_f64() * 1_000.0
+            );
+        }
         if report.step() % log_every == 0 || report.step() == 1 || report.step() == steps {
             println!(
                 "step={} samples={} pre_update_loss={:.6}",
