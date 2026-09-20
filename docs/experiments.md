@@ -17,11 +17,16 @@ roughly as `batch * positions^2 * embedding`, so original PyTorch batch sizes do
 not yet fit. Record the first rejected configuration as a compiler/backend
 finding rather than silently shrinking it.
 
+Evaluation is generated once from its disjoint namespace and can be much larger
+than one backend contraction plan. `--eval-batch` chunks model execution while
+preserving one aggregate metric over the declared `--eval-size`; `--eval-every`
+measures that same fixed population during a long run.
+
 Suggested rented-GPU command:
 
 ```bash
 bash scripts/train.sh \
-  --steps 1000 --batch 8 --eval-size 64 \
+  --steps 5000 --batch 8 --eval-size 512 --eval-batch 8 --eval-every 250 \
   --embedding 64 --heads 8 --layers 4 \
   --blanks 36 --learning-rate 1e-3 --weight-decay 1e-2
 ```

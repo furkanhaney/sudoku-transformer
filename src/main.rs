@@ -208,10 +208,38 @@ fn metrics(
     ))
 }
 
+fn metrics_chunked(
+    model: &SudokuTransformer,
+    samples: &[SudokuSample],
+    chunk_size: usize,
+    axes: &SudokuAxes,
+    device: &Device,
+) -> Result<(f32, f32, f32)> {
+    if samples.is_empty() || chunk_size == 0 {
+        return Err("evaluation samples and chunk size must be positive".into());
+    }
+    let mut weighted = (0.0_f64, 0.0_f64, 0.0_f64);
+    for chunk in samples.chunks(chunk_size) {
+        let measured = metrics(model, chunk, axes, device)?;
+        let weight = chunk.len() as f64;
+        weighted.0 += f64::from(measured.0) * weight;
+        weighted.1 += f64::from(measured.1) * weight;
+        weighted.2 += f64::from(measured.2) * weight;
+    }
+    let total = samples.len() as f64;
+    Ok((
+        (weighted.0 / total) as f32,
+        (weighted.1 / total) as f32,
+        (weighted.2 / total) as f32,
+    ))
+}
+
 fn main() -> Result<()> {
     let mut steps = 100_usize;
     let mut batch_size = 4_usize;
     let mut eval_size = 8_usize;
+    let mut eval_batch_size = None;
+    let mut eval_every = None;
     let mut blanks = 36_usize;
     let mut embedding = 24_usize;
     let mut heads = 4_usize;
@@ -237,6 +265,12 @@ fn main() -> Result<()> {
             "--heads" => heads = args.next().ok_or("--heads needs a value")?.parse()?,
             "--layers" => layers = args.next().ok_or("--layers needs a value")?.parse()?,
             "--eval-size" => eval_size = args.next().ok_or("--eval-size needs a value")?.parse()?,
+            "--eval-batch" => {
+                eval_batch_size = Some(args.next().ok_or("--eval-batch needs a value")?.parse()?)
+            }
+            "--eval-every" => {
+                eval_every = Some(args.next().ok_or("--eval-every needs a value")?.parse()?)
+            }
             "--learning-rate" => {
                 learning_rate = args
                     .next()
@@ -248,7 +282,7 @@ fn main() -> Result<()> {
             }
             "--help" | "-h" => {
                 println!(
-                    "sudoku-transformer [--smoke] [--steps N] [--batch N] [--eval-size N] \\\n+                     [--blanks N] [--embedding N] [--heads N] [--layers N] \\\n+                     [--learning-rate F] [--weight-decay F]"
+                    "sudoku-transformer [--smoke] [--steps N] [--batch N] \\n                     [--eval-size N] [--eval-batch N] [--eval-every N] \\n                     [--blanks N] [--embedding N] [--heads N] [--layers N] \\n                     [--learning-rate F] [--weight-decay F]"
                 );
                 return Ok(());
             }
@@ -257,6 +291,10 @@ fn main() -> Result<()> {
     }
     if steps == 0 || batch_size == 0 || eval_size == 0 {
         return Err("steps, batch, and evaluation size must be positive".into());
+    }
+    let eval_batch_size = eval_batch_size.unwrap_or(batch_size);
+    if eval_batch_size == 0 || eval_every == Some(0) {
+        return Err("evaluation batch and interval must be positive".into());
     }
 
     let device = Device::cuda(0)?;
@@ -285,12 +323,20 @@ fn main() -> Result<()> {
         .expect("generated evaluation batch");
     let mut disjoint = TrainEvalDisjoint::new();
     disjoint.observe_evaluation(evaluation.sample_ids.iter().copied())?;
-    let initial = metrics(&model, &evaluation.samples, model.axes(), &device)?;
+    let initial = metrics_chunked(
+        &model,
+        &evaluation.samples,
+        eval_batch_size,
+        model.axes(),
+        &device,
+    )?;
     println!(
-        "initial eval_loss={:.6} blank_accuracy={:.2}% solved={:.2}%",
+        "initial eval_loss={:.6} blank_accuracy={:.2}% solved={:.2}% eval_samples={} eval_batch={}",
         initial.0,
         initial.1 * 100.0,
-        initial.2 * 100.0
+        initial.2 * 100.0,
+        evaluation.samples.len(),
+        eval_batch_size,
     );
 
     let mut trainer = Trainer::new(AdamW::new(learning_rate, weight_decay)?);
@@ -310,9 +356,32 @@ fn main() -> Result<()> {
             train.samples_delivered(),
             report.pre_update_loss()?
         );
+        if eval_every.is_some_and(|interval| report.step() % interval == 0) && report.step() < steps
+        {
+            let checkpoint = metrics_chunked(
+                &model,
+                &evaluation.samples,
+                eval_batch_size,
+                model.axes(),
+                &device,
+            )?;
+            println!(
+                "evaluation step={} eval_loss={:.6} blank_accuracy={:.2}% solved={:.2}%",
+                report.step(),
+                checkpoint.0,
+                checkpoint.1 * 100.0,
+                checkpoint.2 * 100.0
+            );
+        }
         last_receipt = Some(batch.regime);
     }
-    let final_metrics = metrics(&model, &evaluation.samples, model.axes(), &device)?;
+    let final_metrics = metrics_chunked(
+        &model,
+        &evaluation.samples,
+        eval_batch_size,
+        model.axes(),
+        &device,
+    )?;
     println!(
         "final eval_loss={:.6} blank_accuracy={:.2}% solved={:.2}% elapsed_s={:.2}",
         final_metrics.0,

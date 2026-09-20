@@ -69,8 +69,6 @@ on a fixed one-million-puzzle corpus. Its largest run reported **99.95% cell
 accuracy** and **98.92% completely solved validation puzzles**. Those are useful
 reference numbers, not results from the new Axis implementation.
 
-![Historical PyTorch training and validation loss](img/loss_iter_200m.png)
-
 The current research question is whether a continuously generated stream changes
 the scaling picture when memorizing a finite puzzle file is removed from the
 experiment.
@@ -106,7 +104,9 @@ bash scripts/train.sh --smoke
 bash scripts/train.sh \
   --steps 100 \
   --batch 4 \
-  --eval-size 16 \
+  --eval-size 256 \
+  --eval-batch 4 \
+  --eval-every 25 \
   --embedding 24 \
   --heads 4 \
   --layers 2 \
@@ -123,6 +123,10 @@ Every run reports:
 - observed sample identities and reuse;
 - train/evaluation identity overlap; and
 - wall-clock time and parameter count.
+
+Large evaluation populations execute in bounded `--eval-batch` chunks and are
+aggregated into one metric. This keeps the scientific sample size independent
+of the current backend's per-operation contraction-plan limit.
 
 ## Project structure
 
