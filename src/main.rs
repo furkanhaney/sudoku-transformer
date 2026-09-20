@@ -15,6 +15,24 @@ struct SudokuSample {
     solution: [u8; 81],
 }
 
+/// Treat digit relabelings of one clue board as the same research example.
+/// Cell positions remain meaningful; row/column symmetries are not collapsed.
+fn canonical_puzzle(sample: &SudokuSample) -> [u8; 81] {
+    let mut labels = [0_u8; 10];
+    let mut next = 1_u8;
+    std::array::from_fn(|position| {
+        let digit = usize::from(sample.puzzle[position]);
+        if digit == 0 {
+            return 0;
+        }
+        if labels[digit] == 0 {
+            labels[digit] = next;
+            next += 1;
+        }
+        labels[digit]
+    })
+}
+
 struct SudokuGenerator {
     seed: u64,
     next_id: u64,
@@ -424,17 +442,26 @@ fn main() -> Result<()> {
     let evaluation = evaluation
         .next_batch()?
         .expect("generated evaluation batch");
-    let mut disjoint = TrainEvalDisjoint::new();
-    disjoint.observe_evaluation(evaluation.sample_ids.iter().copied())?;
+    let populations = if audit_size.is_some() {
+        vec!["training", "tuning", "audit"]
+    } else {
+        vec!["training", "tuning"]
+    };
+    let mut disjoint = Disjointness::new(
+        IdentityScheme::new(
+            "sudoku-puzzle",
+            "1",
+            "81 clue cells after first-occurrence digit relabeling; positions retained",
+        )?,
+        populations,
+    )?;
+    disjoint.observe("tuning", evaluation.samples.iter().map(canonical_puzzle))?;
     let audit = if let Some(size) = audit_size {
         let mut source = DataLoader::new(SudokuGenerator::new(AUDIT_SEED, blanks)?, size)?
             .assert_idr(IdrLimits::generated(0.0)?)?;
         let batch = source.next_batch()?.expect("generated audit batch");
-        disjoint.observe_evaluation(batch.sample_ids.iter().copied())?;
-        let mut tuning_audit_disjoint = TrainEvalDisjoint::new();
-        tuning_audit_disjoint.observe_train(evaluation.sample_ids.iter().copied())?;
-        tuning_audit_disjoint.observe_evaluation(batch.sample_ids.iter().copied())?;
-        Some((batch, tuning_audit_disjoint))
+        disjoint.observe("audit", batch.samples.iter().map(canonical_puzzle))?;
+        Some(batch)
     } else {
         None
     };
@@ -459,7 +486,7 @@ fn main() -> Result<()> {
     let mut last_receipt = None;
     for _ in 0..steps {
         let batch = train.next_batch()?.expect("generated training batch");
-        disjoint.observe_train(batch.sample_ids.iter().copied())?;
+        disjoint.observe("training", batch.samples.iter().map(canonical_puzzle))?;
         let (inputs, targets, blanks) = tensors(&batch.samples, model.axes(), &device)?;
         let step_started = Instant::now();
         let report = trainer.step(&mut model, |model| {
@@ -514,7 +541,7 @@ fn main() -> Result<()> {
         final_metrics.2 * 100.0,
         started.elapsed().as_secs_f64()
     );
-    if let Some((audit, tuning_audit_disjoint)) = audit {
+    if let Some(audit) = audit {
         let audit_metrics = metrics_chunked(
             &model,
             &audit.samples,
@@ -529,10 +556,9 @@ fn main() -> Result<()> {
             audit_metrics.2 * 100.0,
             audit.samples.len()
         );
-        println!("TUNING/AUDIT {}", tuning_audit_disjoint.receipt());
     }
     println!("{}", last_receipt.expect("positive steps"));
-    println!("{}", disjoint.receipt());
+    println!("{}", disjoint.assert_disjoint()?);
     if !final_metrics.0.is_finite() {
         return Err("Sudoku acceptance produced a non-finite evaluation loss".into());
     }
@@ -582,6 +608,48 @@ mod tests {
             );
             assert_eq!(solution_count(&sample.puzzle, 2), 1);
         }
+        Ok(())
+    }
+
+    #[test]
+    fn canonical_puzzle_collapses_digit_relabeling_but_retains_clue_positions() -> Result<()> {
+        let generator = SudokuGenerator::new(7, 36)?;
+        let sample = generator.generate(0);
+        let mut relabeled = sample.clone();
+        for digit in relabeled.puzzle.iter_mut().chain(&mut relabeled.solution) {
+            if *digit != 0 {
+                *digit = 10 - *digit;
+            }
+        }
+        assert_ne!(sample.puzzle, relabeled.puzzle);
+        assert_eq!(canonical_puzzle(&sample), canonical_puzzle(&relabeled));
+
+        let mut different_clues = sample.clone();
+        let blank = different_clues
+            .puzzle
+            .iter()
+            .position(|&digit| digit == 0)
+            .expect("generated puzzle has blanks");
+        different_clues.puzzle[blank] = different_clues.solution[blank];
+        assert_ne!(
+            canonical_puzzle(&sample),
+            canonical_puzzle(&different_clues)
+        );
+
+        let mut disjoint = Disjointness::new(
+            IdentityScheme::new(
+                "sudoku-puzzle",
+                "test",
+                "canonical clue board used by this test",
+            )?,
+            ["training", "tuning"],
+        )?;
+        disjoint.observe("tuning", [canonical_puzzle(&sample)])?;
+        let error = disjoint
+            .observe("training", [canonical_puzzle(&relabeled)])
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains("semantic contamination"), "{error}");
         Ok(())
     }
 }

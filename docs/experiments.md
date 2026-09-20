@@ -2,7 +2,8 @@
 
 Every rung uses fresh generated boards, a fixed evaluation stream, 36 blanks,
 AdamW, and blank-only loss. Advance only after the smaller rung completes with
-finite loss and passing IDR/disjointness receipts.
+finite loss, a passing draw-ID IDR receipt, and a passing canonical-puzzle
+disjointness receipt.
 
 | rung | embedding | heads | layers | batch | purpose |
 |---|---:|---:|---:|---:|---|
@@ -39,7 +40,8 @@ bash scripts/train.sh \
 
 A run earns a public learning claim only when fixed held-out loss improves and
 its log records hardware, exact commit, complete command, elapsed time, sample
-count, IDR receipt, and train/evaluation overlap receipt.
+count, IDR receipt, and the versioned training/tuning/audit semantic identity
+receipt.
 
 ## Invalidated pre-uniqueness runs
 

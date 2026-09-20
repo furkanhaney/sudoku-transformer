@@ -20,11 +20,14 @@ The bounded Axis configuration is deliberately smaller. It uses tanh-approximate
 GELU, a generated stream in place of the fixed Kaggle corpus, and no dropout.
 The default path is FP32 throughout; `--bf16` rounds matrix-product inputs to
 BF16 while retaining FP32 accumulation and FP32 optimizer state. The generator
-supplies an IDR acceptance that
-the finite source cannot: every delivered draw has a fresh stable identity,
-train/evaluation seeds occupy disjoint identity namespaces, and both guards
-emit receipts. This proves the declared operational regime, not independence
-or infinite informational diversity.
+supplies an IDR acceptance that the finite source cannot: every delivered draw
+has a fresh stable identity. A separate Axis disjointness ledger canonicalizes
+each clue board by first-occurrence digit relabeling, then compares those
+problem identities across training, tuning, and final-audit populations. It can
+therefore catch one logical puzzle arriving from distinct generator seeds. Row
+and column positions remain meaningful in version 1 of this identity. The
+receipts prove the declared observed regime, not unseen separation,
+independence, or infinite informational diversity.
 
 Uniqueness is part of the target contract. Without it, exact agreement with the
 generator's hidden completion can be impossible even for a correct Sudoku
