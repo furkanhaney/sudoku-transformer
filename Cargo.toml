@@ -10,7 +10,7 @@ repository = "https://github.com/furkanhaney/sudoku-transformer"
 default-run = "sudoku-transformer"
 
 [dependencies]
-axis = { git = "https://gitlab.com/furkanhaney/axis.git", rev = "9ba184db70cd7e5003a683bf9ed779b77bf2764b" }
+axis = { git = "https://gitlab.com/furkanhaney/axis.git", rev = "d53d3354b989e04aabd68d032bd841111c88ad03" }
 
 [[bin]]
 name = "sudoku-transformer"
