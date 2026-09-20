@@ -22,11 +22,17 @@ than one backend contraction plan. `--eval-batch` chunks model execution while
 preserving one aggregate metric over the declared `--eval-size`; `--eval-every`
 measures that same fixed population during a long run.
 
+That fixed population is a tuning set once its curve changes a decision. A
+result selected from several arms earns a final claim only when the declared
+arm also uses `--audit-size` and succeeds on that separately seeded population,
+which is not evaluated until training is complete.
+
 Suggested rented-GPU command:
 
 ```bash
 bash scripts/train.sh \
-  --steps 5000 --batch 8 --eval-size 512 --eval-batch 8 --eval-every 250 --log-every 25 \
+  --steps 5000 --batch 8 --eval-size 512 --eval-batch 8 --eval-every 250 \
+  --audit-size 1024 --log-every 25 \
   --embedding 64 --heads 8 --layers 4 \
   --blanks 36 --learning-rate 1e-3 --weight-decay 1e-2
 ```

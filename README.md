@@ -107,6 +107,7 @@ bash scripts/train.sh \
   --eval-size 256 \
   --eval-batch 4 \
   --eval-every 25 \
+  --audit-size 512 \
   --log-every 10 \
   --embedding 24 \
   --heads 4 \
@@ -128,6 +129,9 @@ Every run reports:
 Large evaluation populations execute in bounded `--eval-batch` chunks and are
 aggregated into one metric. This keeps the scientific sample size independent
 of the current backend's per-operation contraction-plan limit.
+`--audit-size` adds a separately seeded population that is evaluated only after
+training, so a configuration selected from tuning curves still receives an
+untouched final test.
 
 ## Project structure
 

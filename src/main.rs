@@ -7,6 +7,7 @@ use std::{env, time::Instant};
 
 const TRAIN_SEED: u64 = 0x5_d0c0_7a11;
 const EVAL_SEED: u64 = 0x000e_7a15_d0c0;
+const AUDIT_SEED: u64 = 0xa0d1_700d_5eed;
 
 #[derive(Clone)]
 struct SudokuSample {
@@ -240,6 +241,7 @@ fn main() -> Result<()> {
     let mut eval_size = 8_usize;
     let mut eval_batch_size = None;
     let mut eval_every = None;
+    let mut audit_size = None;
     let mut log_every = 1_usize;
     let mut blanks = 36_usize;
     let mut embedding = 24_usize;
@@ -272,6 +274,9 @@ fn main() -> Result<()> {
             "--eval-every" => {
                 eval_every = Some(args.next().ok_or("--eval-every needs a value")?.parse()?)
             }
+            "--audit-size" => {
+                audit_size = Some(args.next().ok_or("--audit-size needs a value")?.parse()?)
+            }
             "--log-every" => log_every = args.next().ok_or("--log-every needs a value")?.parse()?,
             "--learning-rate" => {
                 learning_rate = args
@@ -286,7 +291,7 @@ fn main() -> Result<()> {
                 println!(
                     r#"sudoku-transformer [--smoke] [--steps N] [--batch N]
                      [--eval-size N] [--eval-batch N] [--eval-every N]
-                     [--log-every N]
+                     [--audit-size N] [--log-every N]
                      [--blanks N] [--embedding N] [--heads N] [--layers N]
                      [--learning-rate F] [--weight-decay F]"#
                 );
@@ -303,6 +308,9 @@ fn main() -> Result<()> {
         return Err(
             "evaluation batch, evaluation interval, and log interval must be positive".into(),
         );
+    }
+    if audit_size == Some(0) {
+        return Err("audit size must be positive when requested".into());
     }
 
     let device = Device::cuda(0)?;
@@ -331,6 +339,18 @@ fn main() -> Result<()> {
         .expect("generated evaluation batch");
     let mut disjoint = TrainEvalDisjoint::new();
     disjoint.observe_evaluation(evaluation.sample_ids.iter().copied())?;
+    let audit = if let Some(size) = audit_size {
+        let mut source = DataLoader::new(SudokuGenerator::new(AUDIT_SEED, blanks)?, size)?
+            .assert_idr(IdrLimits::generated(0.0)?)?;
+        let batch = source.next_batch()?.expect("generated audit batch");
+        disjoint.observe_evaluation(batch.sample_ids.iter().copied())?;
+        let mut tuning_audit_disjoint = TrainEvalDisjoint::new();
+        tuning_audit_disjoint.observe_train(evaluation.sample_ids.iter().copied())?;
+        tuning_audit_disjoint.observe_evaluation(batch.sample_ids.iter().copied())?;
+        Some((batch, tuning_audit_disjoint))
+    } else {
+        None
+    };
     let initial = metrics_chunked(
         &model,
         &evaluation.samples,
@@ -399,6 +419,23 @@ fn main() -> Result<()> {
         final_metrics.2 * 100.0,
         started.elapsed().as_secs_f64()
     );
+    if let Some((audit, tuning_audit_disjoint)) = audit {
+        let audit_metrics = metrics_chunked(
+            &model,
+            &audit.samples,
+            eval_batch_size,
+            model.axes(),
+            &device,
+        )?;
+        println!(
+            "final audit_loss={:.6} blank_accuracy={:.2}% solved={:.2}% audit_samples={}",
+            audit_metrics.0,
+            audit_metrics.1 * 100.0,
+            audit_metrics.2 * 100.0,
+            audit.samples.len()
+        );
+        println!("TUNING/AUDIT {}", tuning_audit_disjoint.receipt());
+    }
     println!("{}", last_receipt.expect("positive steps"));
     println!("{}", disjoint.receipt());
     if !final_metrics.0.is_finite() {
