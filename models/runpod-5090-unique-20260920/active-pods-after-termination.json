@@ -1,0 +1,11 @@
+[
+  {
+    "costPerHr": 2.59,
+    "desiredStatus": "RUNNING",
+    "gpuCount": 1,
+    "id": "qfnsa7b0x404ft",
+    "imageName": "runpod/pytorch:1.0.3-cu1281-torch291-ubuntu2404",
+    "name": "openwebui-qwen38-gemma4-20260920-072107",
+    "volumeInGb": 100
+  }
+]

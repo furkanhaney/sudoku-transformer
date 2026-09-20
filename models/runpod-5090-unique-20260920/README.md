@@ -84,6 +84,14 @@ claim; the log and telemetry remain as performance evidence.
 - image: Ubuntu 24.04.3 LTS; Rust 1.98.1; repository-local CUDA 13.2
 - provider rate: `$0.69/hour`, below the authorized `$1.00/hour` ceiling
 - provider deadline: `2026-09-20T18:03:56Z`
+- allocated: `2026-09-20T14:03:56Z`
+- deletion absence verified: `2026-09-20T16:08:53.664849Z`
+- allocation-to-absence interval: `7,497.665 s` (`2.082685 h`)
+- estimated charge at the quoted rate: `$1.4371`
 
-`pod.json` is the allocation receipt. Teardown and final charge evidence are
-added after deletion.
+`terminated.json` records `absent: true`, and `foreground-termination.log`
+records the guard's successful deletion and absence check. The subsequent
+account pod list does not contain this campaign's pod ID. It contains one
+unrelated running pod named `openwebui-qwen38-gemma4-20260920-072107`, so the
+receipt proves exact-pod absence rather than an account-wide zero count; that
+other rental was not touched.
