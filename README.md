@@ -89,6 +89,10 @@ Install a repository-local CUDA toolkit when needed:
 python3 scripts/setup_cuda.py
 ```
 
+The installer materializes CUDA's six runtime, cuRAND, and NVVM linker names
+as regular-file copies. Rerunning it also repairs missing or stale copies, so
+the local toolkit remains usable where repository policy forbids symlinks.
+
 Then run the complete bounded acceptance:
 
 ```bash
