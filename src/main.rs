@@ -442,11 +442,13 @@ fn main() -> Result<()> {
     let evaluation = evaluation
         .next_batch()?
         .expect("generated evaluation batch");
-    let populations = if audit_size.is_some() {
-        vec!["training", "tuning", "audit"]
-    } else {
-        vec!["training", "tuning"]
-    };
+    let mut populations = vec![
+        PopulationSpec::streaming("training"),
+        PopulationSpec::retained("tuning"),
+    ];
+    if audit_size.is_some() {
+        populations.push(PopulationSpec::retained("audit"));
+    }
     let mut disjoint = Disjointness::new(
         IdentityScheme::new(
             "sudoku-puzzle",
@@ -624,17 +626,28 @@ mod tests {
         assert_ne!(sample.puzzle, relabeled.puzzle);
         assert_eq!(canonical_puzzle(&sample), canonical_puzzle(&relabeled));
 
-        let mut different_clues = sample.clone();
-        let blank = different_clues
+        let mut moved_clue = sample.clone();
+        let blank = moved_clue
             .puzzle
             .iter()
             .position(|&digit| digit == 0)
             .expect("generated puzzle has blanks");
-        different_clues.puzzle[blank] = different_clues.solution[blank];
-        assert_ne!(
-            canonical_puzzle(&sample),
-            canonical_puzzle(&different_clues)
+        let clue = moved_clue
+            .puzzle
+            .iter()
+            .position(|&digit| digit != 0)
+            .expect("generated puzzle has clues");
+        moved_clue.puzzle[blank] = moved_clue.solution[blank];
+        moved_clue.puzzle[clue] = 0;
+        assert_eq!(
+            sample.puzzle.iter().filter(|&&digit| digit == 0).count(),
+            moved_clue
+                .puzzle
+                .iter()
+                .filter(|&&digit| digit == 0)
+                .count()
         );
+        assert_ne!(canonical_puzzle(&sample), canonical_puzzle(&moved_clue));
 
         let mut disjoint = Disjointness::new(
             IdentityScheme::new(
