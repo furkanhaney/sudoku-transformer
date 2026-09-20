@@ -6,9 +6,10 @@ claims. Agent contracts, migration details, and continuation state live here or
 under docs/.
 
 The scientific object is a bidirectional transformer that fills Sudoku blanks.
-Training data is generated indefinitely from valid boards. Keep train and
-evaluation generator namespaces disjoint, assert IDR before delivery, and report
-blank-cell accuracy separately from exact whole-board solves.
+Training data is generated indefinitely from valid boards. Assert draw-ID IDR
+before delivery, keep canonical puzzle identities disjoint across training,
+tuning, and audit populations, and report blank-cell accuracy separately from
+exact whole-board solves.
 
 Run `bash scripts/check.sh`. A smoke must pass before a longer experiment. Put
 small durable logs in `models/<experiment>/`; raw datasets and large checkpoints

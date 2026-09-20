@@ -44,16 +44,16 @@ flowchart LR
 The training source creates a valid completed grid, permutes digits, bands,
 rows, stacks, and columns, then rejection-samples a fresh clue mask until an
 exact bounded solver proves the puzzle has one solution. It never needs to wrap
-around a dataset. Training and evaluation use separate generator seeds and
-separate identity namespaces.
+around a dataset. Axis canonicalizes each clue board under digit relabeling and
+compares that problem identity across training, tuning, and final audit data.
 
 Axis checks those claims while the model runs:
 
 ```text
 samples consumed:      50
 unique sample IDs:     50
-observed reuse:         0.0000%
-train/eval overlap:     0
+observed reuse:                  0.0000%
+canonical cross-population overlap: 0
 ```
 
 The current bounded RTX 5090 run used a 3,129-parameter model, 500 updates, and
@@ -136,7 +136,7 @@ Every run reports:
 - accuracy over cells that were blank in the input;
 - exact whole-puzzle solve rate;
 - observed sample identities and reuse;
-- train/evaluation identity overlap; and
+- versioned semantic identity counts for training, tuning, and audit data; and
 - wall-clock time and parameter count.
 
 Large evaluation populations execute in bounded `--eval-batch` chunks and are
@@ -183,6 +183,7 @@ cross-entropy classifies.
 
 The same principle applies above the tensor level. `masked_mean` refuses a
 nonbinary or empty blank mask. `assert_idr()` refuses a repeated sample identity.
-The disjointness guard refuses a board identity that appears in both training
-and evaluation. The goal is an experiment that fails loudly when it stops being
-the experiment described here.
+The disjointness guard refuses a canonical puzzle identity that crosses the
+training, tuning, or final-audit boundaries, even when the raw generator IDs
+differ. The goal is an experiment that fails loudly when it stops being the
+experiment described here.
