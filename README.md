@@ -107,6 +107,7 @@ bash scripts/train.sh \
   --eval-size 256 \
   --eval-batch 4 \
   --eval-every 25 \
+  --log-every 10 \
   --embedding 24 \
   --heads 4 \
   --layers 2 \

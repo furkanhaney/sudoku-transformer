@@ -240,6 +240,7 @@ fn main() -> Result<()> {
     let mut eval_size = 8_usize;
     let mut eval_batch_size = None;
     let mut eval_every = None;
+    let mut log_every = 1_usize;
     let mut blanks = 36_usize;
     let mut embedding = 24_usize;
     let mut heads = 4_usize;
@@ -271,6 +272,7 @@ fn main() -> Result<()> {
             "--eval-every" => {
                 eval_every = Some(args.next().ok_or("--eval-every needs a value")?.parse()?)
             }
+            "--log-every" => log_every = args.next().ok_or("--log-every needs a value")?.parse()?,
             "--learning-rate" => {
                 learning_rate = args
                     .next()
@@ -282,7 +284,11 @@ fn main() -> Result<()> {
             }
             "--help" | "-h" => {
                 println!(
-                    "sudoku-transformer [--smoke] [--steps N] [--batch N] \\n                     [--eval-size N] [--eval-batch N] [--eval-every N] \\n                     [--blanks N] [--embedding N] [--heads N] [--layers N] \\n                     [--learning-rate F] [--weight-decay F]"
+                    r#"sudoku-transformer [--smoke] [--steps N] [--batch N]
+                     [--eval-size N] [--eval-batch N] [--eval-every N]
+                     [--log-every N]
+                     [--blanks N] [--embedding N] [--heads N] [--layers N]
+                     [--learning-rate F] [--weight-decay F]"#
                 );
                 return Ok(());
             }
@@ -293,8 +299,10 @@ fn main() -> Result<()> {
         return Err("steps, batch, and evaluation size must be positive".into());
     }
     let eval_batch_size = eval_batch_size.unwrap_or(batch_size);
-    if eval_batch_size == 0 || eval_every == Some(0) {
-        return Err("evaluation batch and interval must be positive".into());
+    if eval_batch_size == 0 || eval_every == Some(0) || log_every == 0 {
+        return Err(
+            "evaluation batch, evaluation interval, and log interval must be positive".into(),
+        );
     }
 
     let device = Device::cuda(0)?;
@@ -350,12 +358,14 @@ fn main() -> Result<()> {
             let logits = model.forward(&inputs)?;
             masked_loss(&logits, &targets, &blanks, model.axes())
         })?;
-        println!(
-            "step={} samples={} pre_update_loss={:.6}",
-            report.step(),
-            train.samples_delivered(),
-            report.pre_update_loss()?
-        );
+        if report.step() % log_every == 0 || report.step() == 1 || report.step() == steps {
+            println!(
+                "step={} samples={} pre_update_loss={:.6}",
+                report.step(),
+                train.samples_delivered(),
+                report.pre_update_loss()?
+            );
+        }
         if eval_every.is_some_and(|interval| report.step() % interval == 0) && report.step() < steps
         {
             let checkpoint = metrics_chunked(

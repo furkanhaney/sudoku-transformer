@@ -26,7 +26,7 @@ Suggested rented-GPU command:
 
 ```bash
 bash scripts/train.sh \
-  --steps 5000 --batch 8 --eval-size 512 --eval-batch 8 --eval-every 250 \
+  --steps 5000 --batch 8 --eval-size 512 --eval-batch 8 --eval-every 250 --log-every 25 \
   --embedding 64 --heads 8 --layers 4 \
   --blanks 36 --learning-rate 1e-3 --weight-decay 1e-2
 ```
