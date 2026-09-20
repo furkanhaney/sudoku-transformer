@@ -1,14 +1,14 @@
 # Sudoku Transformer
 
 [![Rust 1.89+](https://img.shields.io/badge/Rust-1.89%2B-b7410e?logo=rust)](https://www.rust-lang.org/)
-[![Axis](https://img.shields.io/badge/framework-Axis-5b5bd6)](https://gitlab.com/furkanhaney/axis)
+[![Axis](https://img.shields.io/badge/framework-Axis-5b5bd6)](https://github.com/furkanhaney/axis)
 [![CUDA 13.2](https://img.shields.io/badge/CUDA-13.2-76b900?logo=nvidia)](https://developer.nvidia.com/cuda-toolkit)
 [![MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ![A Sudoku board from the generated training stream](img/axis_generated_puzzle.png)
 
 A bidirectional transformer that learns to fill Sudoku blanks, written in Rust
-on [Axis](https://gitlab.com/furkanhaney/axis).
+on [Axis](https://github.com/furkanhaney/axis).
 
 Sudoku is small enough to understand completely and rich enough to test a real
 model stack. Every prediction must respect row, column, and box constraints;
