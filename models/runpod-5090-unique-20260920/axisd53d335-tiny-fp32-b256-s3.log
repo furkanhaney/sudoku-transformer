@@ -1,0 +1,31 @@
+    Finished `release` profile [optimized] target(s) in 0.09s
+     Running `target/release/sudoku-transformer --steps 3 --batch 256 --eval-size 1 --eval-batch 1 --log-every 1 --embedding 12 --heads 3 --layers 1 --blanks 36 --learning-rate 3e-3 --weight-decay 1e-2`
+model bidirectional-transformer layers=1 embedding=12 heads=3 parameters=3129 matrix_precision=fp32 accumulator_precision=fp32
+initial eval_loss=2.939100 blank_accuracy=11.11% solved=0.00% eval_samples=1 eval_batch=1
+step=1 samples=256 pre_update_loss=2.820404
+PROFILE step=1 generation_s=0.003310 tensors_s=0.000946 trainer_s=19.449162
+step=2 samples=512 pre_update_loss=2.576555
+PROFILE step=2 generation_s=0.003604 tensors_s=0.000462 trainer_s=2.340851
+step=3 samples=768 pre_update_loss=2.556443
+PROFILE step=3 generation_s=0.003357 tensors_s=0.000439 trainer_s=2.325418
+final eval_loss=2.421955 blank_accuracy=16.67% solved=0.00% elapsed_s=24.14
+IDR STATUS
+
+samples consumed:      768
+unique sample IDs:     768
+available population:  generated stream
+observed reuse:         0.0000%
+max observed reuse:     0.0000%
+
+PASS
+TRAIN/EVALUATION DISJOINTNESS
+
+unique training IDs:    768
+unique evaluation IDs:  1
+observed overlap:        0
+
+PASS
+PASS: bidirectional Sudoku transformer trained on fresh generated boards
+real 35.28
+user 30.30
+sys 4.95

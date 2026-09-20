@@ -1,0 +1,47 @@
+=== BATCH 512 START 2026-09-20T15:33:24Z ===
+model bidirectional-transformer layers=4 embedding=64 heads=2 parameters=206537 matrix_precision=bf16 accumulator_precision=fp32
+initial eval_loss=2.624799 blank_accuracy=16.67% solved=0.00% eval_samples=1 eval_batch=1
+step=1 samples=512 pre_update_loss=2.755111
+PROFILE step=1 generation_s=0.006679 tensors_s=0.002399 trainer_s=55.641916
+step=2 samples=1024 pre_update_loss=3.119729
+PROFILE step=2 generation_s=0.006574 tensors_s=0.000878 trainer_s=38.411643
+final eval_loss=2.723279 blank_accuracy=8.33% solved=0.00% elapsed_s=94.16
+IDR STATUS
+
+samples consumed:      1024
+unique sample IDs:     1024
+available population:  generated stream
+observed reuse:         0.0000%
+max observed reuse:     0.0000%
+
+PASS
+TRAIN/EVALUATION DISJOINTNESS
+
+unique training IDs:    1024
+unique evaluation IDs:  1
+observed overlap:        0
+
+PASS
+PASS: bidirectional Sudoku transformer trained on fresh generated boards
+real 104.65
+user 98.74
+sys 5.92
+=== BATCH 512 END 2026-09-20T15:35:08Z ===
+=== BATCH 1024 START 2026-09-20T15:35:08Z ===
+model bidirectional-transformer layers=4 embedding=64 heads=2 parameters=206537 matrix_precision=bf16 accumulator_precision=fp32
+initial eval_loss=2.624799 blank_accuracy=16.67% solved=0.00% eval_samples=1 eval_batch=1
+Error: "index plan must have 1..=16777216 contributions (experimental backend limit)"
+BATCH 1024 RC=1
+real 32.07
+user 28.49
+sys 3.58
+=== BATCH 1024 END 2026-09-20T15:35:40Z ===
+=== BATCH 2048 START 2026-09-20T15:35:40Z ===
+model bidirectional-transformer layers=4 embedding=64 heads=2 parameters=206537 matrix_precision=bf16 accumulator_precision=fp32
+initial eval_loss=2.624799 blank_accuracy=16.67% solved=0.00% eval_samples=1 eval_batch=1
+Error: "index plan must have 1..=16777216 contributions (experimental backend limit)"
+BATCH 2048 RC=1
+real 28.60
+user 22.30
+sys 6.28
+=== BATCH 2048 END 2026-09-20T15:36:09Z ===

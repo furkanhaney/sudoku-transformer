@@ -1,0 +1,63 @@
+0f55ad7e7408dd74dcd547c29edadc830d9d9671
+diff --git a/Cargo.lock b/Cargo.lock
+index d9fce87..83cba60 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -35,7 +35,7 @@ checksum = "f2032f911046de80f0a198e0901378627c33f59ea0ac00e363d481118bd70a53"
+ [[package]]
+ name = "axis"
+ version = "0.1.0"
+-source = "git+https://gitlab.com/furkanhaney/axis.git?rev=767326049ef661e226a074f3fe551ebcd98613bf#767326049ef661e226a074f3fe551ebcd98613bf"
++source = "git+https://gitlab.com/furkanhaney/axis.git?rev=957922c#957922c0cefa9cc1523737dcfd5ee7f1b6580adf"
+ dependencies = [
+  "cutile",
+ ]
+diff --git a/Cargo.toml b/Cargo.toml
+index c50f8fd..278953c 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -10,7 +10,7 @@ repository = "https://github.com/furkanhaney/sudoku-transformer"
+ default-run = "sudoku-transformer"
+ 
+ [dependencies]
+-axis = { git = "https://gitlab.com/furkanhaney/axis.git", rev = "767326049ef661e226a074f3fe551ebcd98613bf" }
++axis = { git = "https://gitlab.com/furkanhaney/axis.git", rev = "957922c" }
+ 
+ [[bin]]
+ name = "sudoku-transformer"
+   Compiling cuda-bindings v0.3.1
+   Compiling cuda-core v0.3.1
+   Compiling cutile-compiler v0.3.1
+   Compiling cuda-async v0.3.1
+   Compiling cutile-macro v0.3.1
+   Compiling cutile v0.3.1
+   Compiling axis v0.1.0 (https://gitlab.com/furkanhaney/axis.git?rev=957922c#957922c0)
+   Compiling sudoku-transformer v0.2.0 (/workspace/sudoku-transformer)
+    Finished `release` profile [optimized] target(s) in 20.30s
+     Running `target/release/sudoku-transformer --steps 10 --batch 8 --eval-size 1 --eval-batch 1 --log-every 5 --embedding 64 --heads 2 --layers 4 --blanks 36 --learning-rate 1e-3 --weight-decay 1e-2`
+model bidirectional-transformer layers=4 embedding=64 heads=2 parameters=206537
+initial eval_loss=2.623042 blank_accuracy=16.67% solved=0.00% eval_samples=1 eval_batch=1
+step=1 samples=8 pre_update_loss=2.893156
+step=5 samples=40 pre_update_loss=2.371653
+step=10 samples=80 pre_update_loss=2.254644
+final eval_loss=2.210253 blank_accuracy=16.67% solved=0.00% elapsed_s=189.61
+IDR STATUS
+
+samples consumed:      80
+unique sample IDs:     80
+available population:  generated stream
+observed reuse:         0.0000%
+max observed reuse:     0.0000%
+
+PASS
+TRAIN/EVALUATION DISJOINTNESS
+
+unique training IDs:    80
+unique evaluation IDs:  1
+observed overlap:        0
+
+PASS
+PASS: bidirectional Sudoku transformer trained on fresh generated boards
+real 223.35
+user 279.71
+sys 23.76

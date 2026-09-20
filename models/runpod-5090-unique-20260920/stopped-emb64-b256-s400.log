@@ -1,0 +1,44 @@
+START_UTC=2026-09-20T15:00:32Z
+0f55ad7e7408dd74dcd547c29edadc830d9d9671
+diff --git a/Cargo.lock b/Cargo.lock
+index d9fce87..3acc1e0 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -35,7 +35,7 @@ checksum = "f2032f911046de80f0a198e0901378627c33f59ea0ac00e363d481118bd70a53"
+ [[package]]
+ name = "axis"
+ version = "0.1.0"
+-source = "git+https://gitlab.com/furkanhaney/axis.git?rev=767326049ef661e226a074f3fe551ebcd98613bf#767326049ef661e226a074f3fe551ebcd98613bf"
++source = "git+https://gitlab.com/furkanhaney/axis.git?rev=dbe1c0d#dbe1c0debee3b1341116f6d2d100346a77deb994"
+ dependencies = [
+  "cutile",
+ ]
+diff --git a/Cargo.toml b/Cargo.toml
+index c50f8fd..3902d29 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -10,7 +10,7 @@ repository = "https://github.com/furkanhaney/sudoku-transformer"
+ default-run = "sudoku-transformer"
+ 
+ [dependencies]
+-axis = { git = "https://gitlab.com/furkanhaney/axis.git", rev = "767326049ef661e226a074f3fe551ebcd98613bf" }
++axis = { git = "https://gitlab.com/furkanhaney/axis.git", rev = "dbe1c0d" }
+ 
+ [[bin]]
+ name = "sudoku-transformer"
+    Finished `release` profile [optimized] target(s) in 0.09s
+     Running `target/release/sudoku-transformer --steps 400 --batch 256 --eval-size 512 --eval-batch 256 --eval-every 100 --audit-size 1024 --log-every 10 --embedding 64 --heads 2 --layers 4 --blanks 36 --learning-rate 1e-3 --weight-decay 1e-2`
+model bidirectional-transformer layers=4 embedding=64 heads=2 parameters=206537
+initial eval_loss=2.758969 blank_accuracy=10.95% solved=0.00% eval_samples=512 eval_batch=256
+step=1 samples=256 pre_update_loss=2.748521
+step=10 samples=2560 pre_update_loss=2.231972
+step=20 samples=5120 pre_update_loss=2.206791
+step=30 samples=7680 pre_update_loss=2.198075
+step=40 samples=10240 pre_update_loss=2.196435
+step=50 samples=12800 pre_update_loss=2.195529
+step=60 samples=15360 pre_update_loss=2.193555
+Terminated
+real 1241.89
+user 1235.52
+sys 6.75
+END_UTC=2026-09-20T15:21:13Z

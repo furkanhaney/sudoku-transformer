@@ -1,0 +1,54 @@
+=== BATCH 128 ===
+    Finished `release` profile [optimized] target(s) in 0.09s
+     Running `target/release/sudoku-transformer --steps 1 --batch 128 --eval-size 1 --eval-batch 1 --log-every 1 --embedding 64 --heads 2 --layers 4 --blanks 36 --learning-rate 1e-3 --weight-decay 1e-2`
+model bidirectional-transformer layers=4 embedding=64 heads=2 parameters=206537
+initial eval_loss=2.623042 blank_accuracy=16.67% solved=0.00% eval_samples=1 eval_batch=1
+step=1 samples=128 pre_update_loss=2.756149
+final eval_loss=3.157088 blank_accuracy=11.11% solved=0.00% elapsed_s=20.64
+IDR STATUS
+
+samples consumed:      128
+unique sample IDs:     128
+available population:  generated stream
+observed reuse:         0.0000%
+max observed reuse:     0.0000%
+
+PASS
+TRAIN/EVALUATION DISJOINTNESS
+
+unique training IDs:    128
+unique evaluation IDs:  1
+observed overlap:        0
+
+PASS
+PASS: bidirectional Sudoku transformer trained on fresh generated boards
+=== BATCH 256 ===
+real 30.58
+user 27.22
+sys 3.37
+    Finished `release` profile [optimized] target(s) in 0.09s
+     Running `target/release/sudoku-transformer --steps 1 --batch 256 --eval-size 1 --eval-batch 1 --log-every 1 --embedding 64 --heads 2 --layers 4 --blanks 36 --learning-rate 1e-3 --weight-decay 1e-2`
+model bidirectional-transformer layers=4 embedding=64 heads=2 parameters=206537
+initial eval_loss=2.623042 blank_accuracy=16.67% solved=0.00% eval_samples=1 eval_batch=1
+step=1 samples=256 pre_update_loss=2.748521
+final eval_loss=3.170579 blank_accuracy=11.11% solved=0.00% elapsed_s=30.90
+IDR STATUS
+
+samples consumed:      256
+unique sample IDs:     256
+available population:  generated stream
+observed reuse:         0.0000%
+max observed reuse:     0.0000%
+
+PASS
+TRAIN/EVALUATION DISJOINTNESS
+
+unique training IDs:    256
+unique evaluation IDs:  1
+observed overlap:        0
+
+PASS
+PASS: bidirectional Sudoku transformer trained on fresh generated boards
+real 40.94
+user 37.08
+sys 3.88

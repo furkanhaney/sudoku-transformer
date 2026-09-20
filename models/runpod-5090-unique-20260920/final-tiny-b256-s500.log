@@ -1,0 +1,63 @@
+START_UTC=2026-09-20T15:43:32Z
+0fd23e7938d853df048598136de638d9a8f6b643
+axis = { git = "https://gitlab.com/furkanhaney/axis.git", rev = "d53d3354b989e04aabd68d032bd841111c88ad03" }
+   Compiling sudoku-transformer v0.2.0 (/workspace/sudoku-transformer)
+    Finished `release` profile [optimized] target(s) in 0.84s
+     Running `target/release/sudoku-transformer --steps 500 --batch 256 --eval-size 512 --eval-batch 256 --eval-every 100 --audit-size 1024 --log-every 25 --embedding 12 --heads 3 --layers 1 --blanks 36 --learning-rate 3e-3 --weight-decay 1e-2`
+model bidirectional-transformer layers=1 embedding=12 heads=3 parameters=3129 matrix_precision=fp32 accumulator_precision=fp32
+initial eval_loss=2.813295 blank_accuracy=11.73% solved=0.00% eval_samples=512 eval_batch=256
+step=1 samples=256 pre_update_loss=2.820404
+step=25 samples=6400 pre_update_loss=2.204389
+step=50 samples=12800 pre_update_loss=2.194772
+step=75 samples=19200 pre_update_loss=2.192069
+step=100 samples=25600 pre_update_loss=2.186805
+evaluation step=100 eval_loss=2.185683 blank_accuracy=13.86% solved=0.00%
+step=125 samples=32000 pre_update_loss=2.179646
+step=150 samples=38400 pre_update_loss=2.172893
+step=175 samples=44800 pre_update_loss=2.163008
+step=200 samples=51200 pre_update_loss=2.158731
+evaluation step=200 eval_loss=2.157528 blank_accuracy=16.29% solved=0.00%
+step=225 samples=57600 pre_update_loss=2.154598
+step=250 samples=64000 pre_update_loss=2.149653
+step=275 samples=70400 pre_update_loss=2.147749
+step=300 samples=76800 pre_update_loss=2.147647
+evaluation step=300 eval_loss=2.144546 blank_accuracy=17.05% solved=0.00%
+step=325 samples=83200 pre_update_loss=2.143165
+step=350 samples=89600 pre_update_loss=2.141447
+step=375 samples=96000 pre_update_loss=2.140671
+step=400 samples=102400 pre_update_loss=2.140329
+evaluation step=400 eval_loss=2.139632 blank_accuracy=17.08% solved=0.00%
+step=425 samples=108800 pre_update_loss=2.140441
+step=450 samples=115200 pre_update_loss=2.140247
+step=475 samples=121600 pre_update_loss=2.140183
+step=500 samples=128000 pre_update_loss=2.137965
+final eval_loss=2.137585 blank_accuracy=17.19% solved=0.00% elapsed_s=1193.46
+final audit_loss=2.137709 blank_accuracy=17.36% solved=0.00% audit_samples=1024
+TUNING/AUDIT TRAIN/EVALUATION DISJOINTNESS
+
+unique training IDs:    512
+unique evaluation IDs:  1024
+observed overlap:        0
+
+PASS
+IDR STATUS
+
+samples consumed:      128000
+unique sample IDs:     128000
+available population:  generated stream
+observed reuse:         0.0000%
+max observed reuse:     0.0000%
+
+PASS
+TRAIN/EVALUATION DISJOINTNESS
+
+unique training IDs:    128000
+unique evaluation IDs:  1536
+observed overlap:        0
+
+PASS
+PASS: bidirectional Sudoku transformer trained on fresh generated boards
+real 1216.94
+user 1043.26
+sys 175.95
+END_UTC=2026-09-20T16:03:49Z

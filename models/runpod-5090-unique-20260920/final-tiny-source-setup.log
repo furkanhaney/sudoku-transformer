@@ -1,0 +1,27 @@
+HEAD is now at 0fd23e7 Pin stream-batched Axis backend
+SOURCE=0fd23e7938d853df048598136de638d9a8f6b643
+axis = { git = "https://gitlab.com/furkanhaney/axis.git", rev = "d53d3354b989e04aabd68d032bd841111c88ad03" }
+name = "axis"
+version = "0.1.0"
+source = "git+https://gitlab.com/furkanhaney/axis.git?rev=d53d3354b989e04aabd68d032bd841111c88ad03#d53d3354b989e04aabd68d032bd841111c88ad03"
+dependencies = [
+?? axis1e3ea9c-emb64-probe10-gpu.csv
+?? axis1e3ea9c-emb64-probe10.pid
+?? axis957-emb64-probe10-gpu.csv
+?? axis957-emb64-probe10.pid
+?? axis9ba-bf16-b256-s5-gpu.csv
+?? axis9ba-bf16-b256-s5.pid
+?? axis9ba-bf16-large-batches-gpu.csv
+?? axis9ba-bf16-large-batches.pid
+?? axisd53d335-fp32-b256-s3-gpu.csv
+?? axisd53d335-fp32-b256-s3.pid
+?? axisdbe1c0d-emb64-probe10-gpu.csv
+?? axisdbe1c0d-emb64-probe10.pid
+?? axise78783a-emb64-b256-s5-gpu.csv
+?? axise78783a-emb64-b256-s5.pid
+?? final-emb64-b256-s400-gpu.csv
+?? final-emb64-b256-s400.pid
+?? tiny-5000-gpu.csv
+?? tiny-lr3e-4-1000-gpu.csv
+?? unique-medium-tune500-gpu.csv
+?? unique-tiny-lr3e-3-1000-gpu.csv

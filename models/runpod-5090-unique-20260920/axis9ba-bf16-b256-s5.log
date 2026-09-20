@@ -1,0 +1,37 @@
+   Compiling axis v0.1.0 (https://gitlab.com/furkanhaney/axis.git?rev=9ba184db70cd7e5003a683bf9ed779b77bf2764b#9ba184db)
+   Compiling sudoku-transformer v0.2.0 (/workspace/sudoku-transformer)
+    Finished `release` profile [optimized] target(s) in 7.26s
+     Running `target/release/sudoku-transformer --bf16 --steps 5 --batch 256 --eval-size 1 --eval-batch 1 --log-every 1 --embedding 64 --heads 2 --layers 4 --blanks 36 --learning-rate 1e-3 --weight-decay 1e-2`
+model bidirectional-transformer layers=4 embedding=64 heads=2 parameters=206537 matrix_precision=bf16 accumulator_precision=fp32
+initial eval_loss=2.624799 blank_accuracy=16.67% solved=0.00% eval_samples=1 eval_batch=1
+PROFILE step=1 generation_s=0.003445 tensors_s=0.000471 trainer_s=33.858595
+step=1 samples=256 pre_update_loss=2.752079
+PROFILE step=2 generation_s=0.003219 tensors_s=0.000488 trainer_s=18.956913
+step=2 samples=512 pre_update_loss=3.118438
+PROFILE step=3 generation_s=0.003309 tensors_s=0.000508 trainer_s=18.966579
+step=3 samples=768 pre_update_loss=2.621381
+PROFILE step=4 generation_s=0.003428 tensors_s=0.000497 trainer_s=19.031772
+step=4 samples=1024 pre_update_loss=2.373382
+PROFILE step=5 generation_s=0.003560 tensors_s=0.000486 trainer_s=19.052490
+step=5 samples=1280 pre_update_loss=2.356202
+final eval_loss=2.356808 blank_accuracy=11.11% solved=0.00% elapsed_s=109.97
+IDR STATUS
+
+samples consumed:      1280
+unique sample IDs:     1280
+available population:  generated stream
+observed reuse:         0.0000%
+max observed reuse:     0.0000%
+
+PASS
+TRAIN/EVALUATION DISJOINTNESS
+
+unique training IDs:    1280
+unique evaluation IDs:  1
+observed overlap:        0
+
+PASS
+PASS: bidirectional Sudoku transformer trained on fresh generated boards
+real 127.68
+user 130.85
+sys 5.37

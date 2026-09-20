@@ -1,0 +1,11 @@
+Downloading cuda_cudart: 1.47 MiB
+Downloading cuda_crt: 0.08 MiB
+Downloading cuda_cccl: 1.16 MiB
+Downloading cuda_nvcc: 29.66 MiB
+Downloading cuda_tileiras: 24.89 MiB
+Downloading libnvvm: 43.35 MiB
+Downloading libcurand: 82.62 MiB
+CUDA_TOOLKIT_PATH=/workspace/axis/.cuda
+Build cuda_13.2.r13.2/compiler.37434383_0
+542b4f60bacf30e6dfdecf0ec72a5218b3c0bda3
+c72aaabe9874834a3d143d4d81da316de3bbffbd

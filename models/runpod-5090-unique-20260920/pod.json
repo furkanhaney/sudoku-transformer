@@ -1,0 +1,9 @@
+{
+  "id": "fi1e4cl5kzyreo",
+  "name": "axis-long-5090-20260920-140356",
+  "desiredStatus": "RUNNING",
+  "costPerHr": 0.69,
+  "gpuCount": 1,
+  "expiry": "2026-09-20T18:03:56Z",
+  "quoted_gpu_hourly_usd": 0.69
+}

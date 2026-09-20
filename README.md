@@ -56,12 +56,16 @@ observed reuse:         0.0000%
 train/eval overlap:     0
 ```
 
-The first bounded Rust run used a 3,129-parameter model and only 50 fresh boards.
-Held-out blank-only loss fell from `2.8734` to `2.2069`. Blank accuracy remained
-near chance and no evaluation puzzle was solved completely, so this establishes
-the end-to-end training path rather than a Sudoku-solving result.
+The current bounded RTX 5090 run used a 3,129-parameter model, 500 updates, and
+128,000 fresh boards. On its fixed 512-board tuning population, blank-only loss
+fell from `2.8133` to `2.1376` and blank accuracy rose from `11.73%` to `17.19%`.
+An untouched 1,024-board audit measured `2.1377` loss and `17.36%` blank
+accuracy. No puzzle was solved completely. The full command finished in
+`20m 16.94s`, with zero observed training-ID reuse and zero overlap among
+training, tuning, and audit identities. This is a learning result on uniquely
+solvable generated puzzles, not a Sudoku-solving result.
 
-![First bounded Axis training run](img/axis_acceptance_25.png)
+![Axis learning curve over 128,000 unique generated boards](img/axis_acceptance_25.png)
 
 ## Historical result
 

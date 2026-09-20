@@ -1,0 +1,93 @@
+model bidirectional-transformer layers=4 embedding=64 heads=2 parameters=206537
+initial eval_loss=2.623042 blank_accuracy=16.67% solved=0.00% eval_samples=1 eval_batch=1
+PROFILE step=1 generation_s=0.003383 tensors_s=0.000499 trainer_s=39step=1 samples=256 pre_update_loss=2.748521
+.017522
+PROFILE step=2 generation_s=0.003276 tensors_s=0.000494 trainer_s=18.662848
+step=2 samples=512 pre_update_loss=3.120066
+final eval_loss=2.719496 blank_accuracy=8.33% solved=0.00% elapsed_s=57.78
+IDR STATUS
+
+samples consumed:      512
+unique sample IDs:     512
+available population:  generated stream
+observed reuse:         0.0000%
+max observed reuse:     0.0000%
+
+PASS
+TRAIN/EVALUATION DISJOINTNESS
+
+unique training IDs:    512
+unique evaluation IDs:  1
+observed overlap:        0
+
+PASS
+PASS: bidirectional Sudoku transformer trained on fresh generated boards
+STRACE_SUMMARY
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- -----------------------
+ 24.36    7.029129        8540       823         1 poll
+ 23.60    6.810468         180     37755       150 futex
+ 23.47    6.773544       58900       115           wait4
+ 22.47    6.483831      202619        32        32 restart_syscall
+  3.84    1.108011           2    520455           gettid
+  0.84    0.241168         273       881           ioctl
+  0.52    0.150048         176       850           munmap
+  0.38    0.109945           5     19713           brk
+  0.14    0.039332           8      4548      2714 openat
+  0.09    0.025344           6      3699           mmap
+  0.05    0.013982          26       519         6 unlink
+  0.05    0.013370         114       117           execve
+  0.03    0.010007           1      8962           rt_sigaction
+  0.02    0.006994           3      2053           close
+  0.02    0.006941           3      1802         1 read
+  0.02    0.006832           6       985           mprotect
+  0.02    0.005196           3      1730           fstat
+  0.02    0.004518           8       507           write
+  0.01    0.004054          34       118           clone
+  0.01    0.003013           5       570       171 lstat
+  0.01    0.002276           3       702       585 newfstatat
+  0.01    0.002209           2      1040           rt_sigprocmask
+  0.01    0.001572           5       314           pread64
+  0.00    0.001140           1       639           prlimit64
+  0.00    0.001110           1       576       174 lseek
+  0.00    0.000674           3       177       117 access
+  0.00    0.000441           1       285           clock_gettime
+  0.00    0.000440           4       107        37 stat
+  0.00    0.000433           3       120           rseq
+  0.00    0.000428           2       176           getrandom
+  0.00    0.000383           3       120           set_robust_list
+  0.00    0.000375           1       231           dup2
+  0.00    0.000370           5        64           statx
+  0.00    0.000357           3       119           pipe2
+  0.00    0.000338           2       117           arch_prctl
+  0.00    0.000328           2       117           set_tid_address
+  0.00    0.000297           1       228           getrusage
+  0.00    0.000289           2       116           sched_get_priority_max
+  0.00    0.000251           2       116           sched_get_priority_min
+  0.00    0.000238           3        61           sched_getaffinity
+  0.00    0.000211           1       116       116 clone3
+  0.00    0.000190           3        54           fcntl
+  0.00    0.000137           1       117           sigaltstack
+  0.00    0.000052          17         3           eventfd2
+  0.00    0.000048           5         9         7 readlink
+  0.00    0.000033           2        13           getpid
+  0.00    0.000031           6         5         5 symlink
+  0.00    0.000026          13         2           socket
+  0.00    0.000021           3         7           dup
+  0.00    0.000020           5         4           getdents64
+  0.00    0.000013          13         1         1 connect
+  0.00    0.000009           9         1           mremap
+  0.00    0.000006           6         1           bind
+  0.00    0.000005           5         1           listen
+  0.00    0.000005           5         1           setsockopt
+  0.00    0.000005           5         1         1 chmod
+  0.00    0.000004           4         1           geteuid
+  0.00    0.000003           3         1         1 get_mempolicy
+  0.00    0.000000           0         1           uname
+  0.00    0.000000           0         3         3 mkdir
+  0.00    0.000000           0         1           sysinfo
+------ ----------- ----------- --------- --------- -----------------------
+100.00   28.860495          47    612002      4122 total
+real 75.64
+user 61.35
+sys 13.53
