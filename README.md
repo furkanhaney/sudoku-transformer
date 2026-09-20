@@ -166,7 +166,7 @@ sudoku-transformer/
 │   ├── train.sh             training entry point
 │   ├── render_readme.py     reproducible measured README figures
 │   └── check.sh             format, lint, tests, GPU smoke
-├── Cargo.toml               Axis pinned by exact Git revision
+├── Cargo.toml               Axis from crates.io
 └── Cargo.lock
 ```
 

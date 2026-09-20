@@ -41,6 +41,6 @@ Run `bash scripts/check.sh`. A smoke must pass before a longer experiment. Put
 small durable logs in `models/<experiment>/`; raw datasets and large checkpoints
 stay ignored. Every public number needs its command, hardware, and log.
 
-Axis is an outside git dependency pinned by revision. Shared tensor, optimizer,
-data-regime, or module behavior belongs in Axis; Sudoku-specific architecture,
-generation, metrics, plots, and experimental choices belong here.
+Axis is an outside crates.io dependency pinned by Cargo.lock. Shared tensor,
+optimizer, data-regime, or module behavior belongs in Axis; Sudoku-specific
+architecture, generation, metrics, plots, and experimental choices belong here.
