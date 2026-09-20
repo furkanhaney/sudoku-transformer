@@ -18,6 +18,8 @@ Preserved in the acceptance path:
 
 The bounded Axis configuration is deliberately smaller. It uses tanh-approximated
 GELU, a generated stream in place of the fixed Kaggle corpus, and no dropout.
+The consumer builds against the released `axis` crate rather than repository
+source, so this acceptance also exercises the public package boundary.
 The default path is FP32 throughout; `--bf16` rounds matrix-product inputs to
 BF16 while retaining FP32 accumulation and FP32 optimizer state. The generator
 supplies an IDR acceptance that the finite source cannot: every delivered draw
