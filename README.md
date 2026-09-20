@@ -141,6 +141,7 @@ sudoku-transformer/
 │   ├── setup_cuda.py        verified local CUDA 13.2 install
 │   ├── cargo.sh             reproducible Cargo/CUDA launcher
 │   ├── train.sh             training entry point
+│   ├── render_readme.py     reproducible measured README figures
 │   └── check.sh             format, lint, tests, GPU smoke
 ├── Cargo.toml               Axis pinned by exact Git revision
 └── Cargo.lock
