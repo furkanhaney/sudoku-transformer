@@ -1,0 +1,14 @@
+Downloading cuda_cudart: 1.47 MiB
+Downloading cuda_crt: 0.08 MiB
+Downloading cuda_cccl: 1.16 MiB
+Downloading cuda_nvcc: 29.66 MiB
+Downloading cuda_tileiras: 24.89 MiB
+Downloading libnvvm: 43.35 MiB
+Downloading libcurand: 82.62 MiB
+CUDA_TOOLKIT_PATH=/workspace/axis/.cuda
+Build cuda_13.2.r13.2/compiler.37434383_0
+tileiras: NVIDIA (R) Cuda Tile IR optimizing assembler
+Copyright (c) 2005-2026 NVIDIA Corporation
+Built on Mon_Mar__2_22:26:27_PST_2026
+Cuda compilation tools, release 13.2, V13.2.51
+Build local.local.37434383_

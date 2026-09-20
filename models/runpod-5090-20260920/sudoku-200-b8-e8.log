@@ -1,0 +1,225 @@
+    Finished `release` profile [optimized] target(s) in 0.06s
+     Running `target/release/sudoku-transformer --steps 200 --batch 8 --eval-size 8 --embedding 12 --heads 3 --layers 1 --blanks 36 --learning-rate 3e-3 --weight-decay 1e-2`
+model bidirectional-transformer layers=1 embedding=12 heads=3 parameters=3129
+initial eval_loss=2.873419 blank_accuracy=12.50% solved=0.00%
+step=1 samples=8 pre_update_loss=2.850600
+step=2 samples=16 pre_update_loss=2.565903
+step=3 samples=24 pre_update_loss=2.517588
+step=4 samples=32 pre_update_loss=2.509113
+step=5 samples=40 pre_update_loss=2.430549
+step=6 samples=48 pre_update_loss=2.408463
+step=7 samples=56 pre_update_loss=2.310069
+step=8 samples=64 pre_update_loss=2.350561
+step=9 samples=72 pre_update_loss=2.294681
+step=10 samples=80 pre_update_loss=2.268510
+step=11 samples=88 pre_update_loss=2.264343
+step=12 samples=96 pre_update_loss=2.223347
+step=13 samples=104 pre_update_loss=2.245500
+step=14 samples=112 pre_update_loss=2.239393
+step=15 samples=120 pre_update_loss=2.223440
+step=16 samples=128 pre_update_loss=2.207547
+step=17 samples=136 pre_update_loss=2.246784
+step=18 samples=144 pre_update_loss=2.210752
+step=19 samples=152 pre_update_loss=2.206409
+step=20 samples=160 pre_update_loss=2.201801
+step=21 samples=168 pre_update_loss=2.213289
+step=22 samples=176 pre_update_loss=2.200359
+step=23 samples=184 pre_update_loss=2.206169
+step=24 samples=192 pre_update_loss=2.214923
+step=25 samples=200 pre_update_loss=2.201336
+step=26 samples=208 pre_update_loss=2.209417
+step=27 samples=216 pre_update_loss=2.207530
+step=28 samples=224 pre_update_loss=2.206702
+step=29 samples=232 pre_update_loss=2.196043
+step=30 samples=240 pre_update_loss=2.199607
+step=31 samples=248 pre_update_loss=2.208904
+step=32 samples=256 pre_update_loss=2.195112
+step=33 samples=264 pre_update_loss=2.196051
+step=34 samples=272 pre_update_loss=2.204071
+step=35 samples=280 pre_update_loss=2.203761
+step=36 samples=288 pre_update_loss=2.210483
+step=37 samples=296 pre_update_loss=2.196986
+step=38 samples=304 pre_update_loss=2.201233
+step=39 samples=312 pre_update_loss=2.190257
+step=40 samples=320 pre_update_loss=2.205155
+step=41 samples=328 pre_update_loss=2.213373
+step=42 samples=336 pre_update_loss=2.188327
+step=43 samples=344 pre_update_loss=2.200720
+step=44 samples=352 pre_update_loss=2.199754
+step=45 samples=360 pre_update_loss=2.193771
+step=46 samples=368 pre_update_loss=2.193659
+step=47 samples=376 pre_update_loss=2.195114
+step=48 samples=384 pre_update_loss=2.195765
+step=49 samples=392 pre_update_loss=2.195900
+step=50 samples=400 pre_update_loss=2.198170
+step=51 samples=408 pre_update_loss=2.191205
+step=52 samples=416 pre_update_loss=2.189803
+step=53 samples=424 pre_update_loss=2.196397
+step=54 samples=432 pre_update_loss=2.195042
+step=55 samples=440 pre_update_loss=2.192420
+step=56 samples=448 pre_update_loss=2.199085
+step=57 samples=456 pre_update_loss=2.191035
+step=58 samples=464 pre_update_loss=2.197333
+step=59 samples=472 pre_update_loss=2.205057
+step=60 samples=480 pre_update_loss=2.194868
+step=61 samples=488 pre_update_loss=2.193206
+step=62 samples=496 pre_update_loss=2.202125
+step=63 samples=504 pre_update_loss=2.194283
+step=64 samples=512 pre_update_loss=2.199967
+step=65 samples=520 pre_update_loss=2.193146
+step=66 samples=528 pre_update_loss=2.200064
+step=67 samples=536 pre_update_loss=2.194676
+step=68 samples=544 pre_update_loss=2.198789
+step=69 samples=552 pre_update_loss=2.199719
+step=70 samples=560 pre_update_loss=2.200000
+step=71 samples=568 pre_update_loss=2.195204
+step=72 samples=576 pre_update_loss=2.192988
+step=73 samples=584 pre_update_loss=2.185539
+step=74 samples=592 pre_update_loss=2.199538
+step=75 samples=600 pre_update_loss=2.195705
+step=76 samples=608 pre_update_loss=2.198097
+step=77 samples=616 pre_update_loss=2.195381
+step=78 samples=624 pre_update_loss=2.190110
+step=79 samples=632 pre_update_loss=2.199308
+step=80 samples=640 pre_update_loss=2.198153
+step=81 samples=648 pre_update_loss=2.187423
+step=82 samples=656 pre_update_loss=2.197665
+step=83 samples=664 pre_update_loss=2.196784
+step=84 samples=672 pre_update_loss=2.193759
+step=85 samples=680 pre_update_loss=2.189582
+step=86 samples=688 pre_update_loss=2.196078
+step=87 samples=696 pre_update_loss=2.188548
+step=88 samples=704 pre_update_loss=2.195364
+step=89 samples=712 pre_update_loss=2.192748
+step=90 samples=720 pre_update_loss=2.194198
+step=91 samples=728 pre_update_loss=2.188133
+step=92 samples=736 pre_update_loss=2.185521
+step=93 samples=744 pre_update_loss=2.189437
+step=94 samples=752 pre_update_loss=2.189852
+step=95 samples=760 pre_update_loss=2.191693
+step=96 samples=768 pre_update_loss=2.183480
+step=97 samples=776 pre_update_loss=2.196039
+step=98 samples=784 pre_update_loss=2.189067
+step=99 samples=792 pre_update_loss=2.197471
+step=100 samples=800 pre_update_loss=2.192423
+step=101 samples=808 pre_update_loss=2.193056
+step=102 samples=816 pre_update_loss=2.194984
+step=103 samples=824 pre_update_loss=2.195868
+step=104 samples=832 pre_update_loss=2.193664
+step=105 samples=840 pre_update_loss=2.185582
+step=106 samples=848 pre_update_loss=2.192794
+step=107 samples=856 pre_update_loss=2.190460
+step=108 samples=864 pre_update_loss=2.197079
+step=109 samples=872 pre_update_loss=2.186466
+step=110 samples=880 pre_update_loss=2.195476
+step=111 samples=888 pre_update_loss=2.185658
+step=112 samples=896 pre_update_loss=2.192262
+step=113 samples=904 pre_update_loss=2.199243
+step=114 samples=912 pre_update_loss=2.189780
+step=115 samples=920 pre_update_loss=2.184934
+step=116 samples=928 pre_update_loss=2.190681
+step=117 samples=936 pre_update_loss=2.187912
+step=118 samples=944 pre_update_loss=2.190673
+step=119 samples=952 pre_update_loss=2.188415
+step=120 samples=960 pre_update_loss=2.184203
+step=121 samples=968 pre_update_loss=2.190713
+step=122 samples=976 pre_update_loss=2.189275
+step=123 samples=984 pre_update_loss=2.199419
+step=124 samples=992 pre_update_loss=2.194478
+step=125 samples=1000 pre_update_loss=2.193107
+step=126 samples=1008 pre_update_loss=2.181607
+step=127 samples=1016 pre_update_loss=2.190042
+step=128 samples=1024 pre_update_loss=2.180651
+step=129 samples=1032 pre_update_loss=2.190584
+step=130 samples=1040 pre_update_loss=2.189792
+step=131 samples=1048 pre_update_loss=2.192177
+step=132 samples=1056 pre_update_loss=2.190203
+step=133 samples=1064 pre_update_loss=2.190963
+step=134 samples=1072 pre_update_loss=2.175990
+step=135 samples=1080 pre_update_loss=2.196074
+step=136 samples=1088 pre_update_loss=2.180944
+step=137 samples=1096 pre_update_loss=2.183772
+step=138 samples=1104 pre_update_loss=2.186686
+step=139 samples=1112 pre_update_loss=2.185550
+step=140 samples=1120 pre_update_loss=2.177933
+step=141 samples=1128 pre_update_loss=2.194824
+step=142 samples=1136 pre_update_loss=2.190595
+step=143 samples=1144 pre_update_loss=2.179491
+step=144 samples=1152 pre_update_loss=2.191845
+step=145 samples=1160 pre_update_loss=2.185891
+step=146 samples=1168 pre_update_loss=2.171493
+step=147 samples=1176 pre_update_loss=2.188659
+step=148 samples=1184 pre_update_loss=2.183324
+step=149 samples=1192 pre_update_loss=2.181044
+step=150 samples=1200 pre_update_loss=2.182799
+step=151 samples=1208 pre_update_loss=2.183468
+step=152 samples=1216 pre_update_loss=2.187714
+step=153 samples=1224 pre_update_loss=2.180197
+step=154 samples=1232 pre_update_loss=2.189602
+step=155 samples=1240 pre_update_loss=2.180182
+step=156 samples=1248 pre_update_loss=2.187695
+step=157 samples=1256 pre_update_loss=2.175215
+step=158 samples=1264 pre_update_loss=2.172457
+step=159 samples=1272 pre_update_loss=2.193896
+step=160 samples=1280 pre_update_loss=2.179937
+step=161 samples=1288 pre_update_loss=2.173876
+step=162 samples=1296 pre_update_loss=2.175865
+step=163 samples=1304 pre_update_loss=2.183628
+step=164 samples=1312 pre_update_loss=2.190098
+step=165 samples=1320 pre_update_loss=2.187776
+step=166 samples=1328 pre_update_loss=2.182356
+step=167 samples=1336 pre_update_loss=2.179037
+step=168 samples=1344 pre_update_loss=2.165423
+step=169 samples=1352 pre_update_loss=2.182167
+step=170 samples=1360 pre_update_loss=2.174820
+step=171 samples=1368 pre_update_loss=2.171983
+step=172 samples=1376 pre_update_loss=2.182183
+step=173 samples=1384 pre_update_loss=2.184492
+step=174 samples=1392 pre_update_loss=2.174627
+step=175 samples=1400 pre_update_loss=2.182390
+step=176 samples=1408 pre_update_loss=2.176900
+step=177 samples=1416 pre_update_loss=2.173484
+step=178 samples=1424 pre_update_loss=2.174942
+step=179 samples=1432 pre_update_loss=2.182691
+step=180 samples=1440 pre_update_loss=2.178374
+step=181 samples=1448 pre_update_loss=2.180231
+step=182 samples=1456 pre_update_loss=2.165902
+step=183 samples=1464 pre_update_loss=2.193266
+step=184 samples=1472 pre_update_loss=2.188201
+step=185 samples=1480 pre_update_loss=2.183315
+step=186 samples=1488 pre_update_loss=2.176561
+step=187 samples=1496 pre_update_loss=2.183080
+step=188 samples=1504 pre_update_loss=2.181500
+step=189 samples=1512 pre_update_loss=2.185408
+step=190 samples=1520 pre_update_loss=2.174051
+step=191 samples=1528 pre_update_loss=2.171219
+step=192 samples=1536 pre_update_loss=2.179675
+step=193 samples=1544 pre_update_loss=2.187129
+step=194 samples=1552 pre_update_loss=2.188662
+step=195 samples=1560 pre_update_loss=2.176574
+step=196 samples=1568 pre_update_loss=2.174536
+step=197 samples=1576 pre_update_loss=2.183640
+step=198 samples=1584 pre_update_loss=2.176113
+step=199 samples=1592 pre_update_loss=2.178914
+step=200 samples=1600 pre_update_loss=2.172637
+final eval_loss=2.170745 blank_accuracy=14.93% solved=0.00% elapsed_s=51.27
+IDR STATUS
+
+samples consumed:      1600
+unique sample IDs:     1600
+available population:  generated stream
+observed reuse:         0.0000%
+max observed reuse:     0.0000%
+
+PASS
+TRAIN/EVALUATION DISJOINTNESS
+
+unique training IDs:    1600
+unique evaluation IDs:  8
+observed overlap:        0
+
+PASS
+PASS: bidirectional Sudoku transformer trained on fresh generated boards
+real 59.30
+user 56.80
+sys 2.52

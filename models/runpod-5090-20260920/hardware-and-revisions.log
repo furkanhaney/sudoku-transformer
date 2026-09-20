@@ -1,0 +1,40 @@
+    Product Name                          : NVIDIA GeForce RTX 5090
+    Product Brand                         : GeForce
+    Product Architecture                  : Blackwell
+    Display Mode                          : Requested functionality has been deprecated
+    Display Attached                      : No
+    Display Active                        : Disabled
+    Persistence Mode                      : Enabled
+    Addressing Mode                       : HMM
+    MIG Mode
+        Current                           : N/A
+        Pending                           : N/A
+    Accounting Mode                       : Disabled
+    Accounting Mode Buffer Size           : 4000
+    Driver Model
+        Current                           : N/A
+        Pending                           : N/A
+NVIDIA GeForce RTX 5090, 32607 MiB, 580.65.06, 00000000:21:00.0
+Architecture:                         x86_64
+CPU op-mode(s):                       32-bit, 64-bit
+Address sizes:                        52 bits physical, 57 bits virtual
+Byte Order:                           Little Endian
+CPU(s):                               32
+On-line CPU(s) list:                  0-31
+Vendor ID:                            AuthenticAMD
+Model name:                           AMD Ryzen Threadripper PRO 7955WX 16-Cores
+CPU family:                           25
+Model:                                24
+Thread(s) per core:                   2
+Core(s) per socket:                   16
+Socket(s):                            1
+Stepping:                             1
+CPU(s) scaling MHz:                   24%
+CPU max MHz:                          5371.0000
+CPU min MHz:                          545.0000
+BogoMIPS:                             8999.61
+               total        used        free      shared  buff/cache   available
+Mem:           188Gi        49Gi        94Gi        59Mi        45Gi       138Gi
+Swap:             0B          0B          0B
+767326049ef661e226a074f3fe551ebcd98613bf
+35cfb9eb42c59c42debe7e8a3de0084ae21235d3

@@ -1,0 +1,82 @@
+   Compiling cuda-bindings v0.3.1
+   Compiling half v2.7.1
+   Compiling thiserror v1.0.69
+   Compiling getrandom v0.4.3
+   Compiling psm v0.1.32
+   Compiling digest v0.10.7
+   Compiling futures v0.3.34
+   Compiling phf_generator v0.11.3
+   Compiling oxide-artifacts v0.2.1
+   Compiling crypto-common v0.1.7
+   Compiling block-buffer v0.10.4
+   Compiling linkme v0.3.37
+   Compiling cuda-core v0.3.1
+   Compiling stacker v0.1.25
+   Compiling aho-corasick v1.1.5
+   Compiling cpufeatures v0.2.17
+   Compiling regex-syntax v0.8.11
+   Compiling autocfg v1.5.1
+   Compiling zmij v1.0.23
+   Compiling hashbrown v0.14.5
+   Compiling once_cell v1.21.4
+   Compiling rustc-hash v2.1.3
+   Compiling num-traits v0.2.19
+   Compiling sha2 v0.10.9
+   Compiling phf_macros v0.11.3
+   Compiling dashmap v6.2.1
+   Compiling uuid v1.26.1
+   Compiling syn v2.0.119
+   Compiling serde_core v1.0.229
+   Compiling cutile-ir v0.3.1
+   Compiling cutile-compiler v0.3.1
+   Compiling serde v1.0.229
+   Compiling unicode-segmentation v1.13.3
+   Compiling regex-automata v0.4.18
+   Compiling serde_json v1.0.151
+   Compiling convert_case v0.8.0
+   Compiling phf v0.11.3
+   Compiling regex v1.13.1
+   Compiling prettyplease v0.2.37
+   Compiling cuda-async v0.3.1
+   Compiling serde_derive v1.0.229
+   Compiling itertools v0.14.0
+   Compiling itoa v1.0.18
+   Compiling cutile-macro v0.3.1
+   Compiling cutile v0.3.1
+   Compiling axis v0.1.0 (/workspace/axis/src/axis)
+    Finished `release` profile [optimized] target(s) in 18.52s
+     Running unittests src/lib.rs (target/release/deps/axis-0b243086251f2675)
+
+running 20 tests
+test axis::tests::identity_binding_and_validation ... ok
+test data::tests::finite_source_yields_a_short_final_batch_and_stops ... ok
+test data::tests::addition_source_never_exhausts_and_passes_generated_idr ... ok
+test data::tests::finite_pass_loader_never_crosses_a_pass_boundary ... ok
+test data::tests::idr_violation_never_escapes_the_loader ... ok
+test data::tests::source_kind_and_limit_kind_must_agree ... ok
+test regime::tests::finite_passes_require_the_same_population_once_per_pass ... ok
+test regime::tests::fixed_idr_checks_coverage_and_observed_repeats ... ok
+test regime::tests::generated_idr_checks_identity_without_inventing_coverage ... ok
+test regime::tests::invalid_regime_declarations_fail ... ok
+test tests::algebra_and_errors_are_explicit ... ignored, requires CUDA
+test tests::categorical_loss_and_device_adam_match_references ... ignored, requires CUDA
+test tests::layer_norm_and_gelu_match_a_scalar_reference ... ignored, requires CUDA
+test tests::masked_mean_normalizes_only_selected_elements ... ignored, requires CUDA
+test tests::odd_features_short_batch_unrelated_axes_and_storage_order ... ignored, requires CUDA
+test tests::parameter_versions_accumulation_and_shared_updates ... ignored, requires CUDA
+test tests::population_linear_and_axis_adam_keep_members_independent ... ignored, requires CUDA
+test tests::shared_axes_contract_and_both_input_derivatives ... ignored, requires CUDA
+test regime::tests::single_pass_fails_at_the_first_example_past_the_corpus ... ok
+test regime::tests::train_and_evaluation_identity_overlap_fails_in_either_order ... ok
+
+test result: ok. 12 passed; 0 failed; 8 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests axis
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+real 18.72
+user 113.32
+sys 7.17

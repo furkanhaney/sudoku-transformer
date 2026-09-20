@@ -1,0 +1,62 @@
+    Finished `release` profile [optimized] target(s) in 0.05s
+
+running 8 tests
+test tests::algebra_and_errors_are_explicit ...      Running unittests src/lib.rs (target/release/deps/axis-0b243086251f2675)
+check split/merge values: PASS 24 elements max_abs_error=0.00e0
+check split/merge gradient: PASS 24 elements max_abs_error=1.24e-9
+check reordered merge: PASS 24 elements max_abs_error=0.00e0
+check reordered merge gradient: PASS 24 elements max_abs_error=3.97e-8
+check logical-axis alignment: PASS 6 elements max_abs_error=0.00e0
+check broadcast input gradient: PASS 6 elements max_abs_error=4.97e-9
+check broadcast bias reduction: PASS 3 elements max_abs_error=9.93e-9
+check scalar broadcast gradient: PASS 1 elements max_abs_error=0.00e0
+check ReLU derivative including zero: PASS 3 elements max_abs_error=9.93e-9
+ok
+test tests::categorical_loss_and_device_adam_match_references ... check stable categorical cross-entropy: PASS 2 elements max_abs_error=1.32e-5
+check categorical cross-entropy gradient: PASS 6 elements max_abs_error=3.60e-8
+check device Adam update: PASS 2 elements max_abs_error=9.54e-9
+check device Adam update: PASS 2 elements max_abs_error=1.91e-8
+check device AdamW decay: PASS 2 elements max_abs_error=4.49e-8
+ok
+test tests::layer_norm_and_gelu_match_a_scalar_reference ... check LayerNorm plus GELU forward: PASS 6 elements max_abs_error=9.04e-8
+check LayerNorm plus GELU gradient: PASS 6 elements max_abs_error=5.12e-9
+ok
+test tests::masked_mean_normalizes_only_selected_elements ... check masked mean: PASS 1 elements max_abs_error=0.00e0
+check masked mean gradient: PASS 4 elements max_abs_error=0.00e0
+ok
+test tests::odd_features_short_batch_unrelated_axes_and_storage_order ... check odd/layout predictions: PASS 30 elements max_abs_error=1.72e-7
+check canonical predictions: PASS 30 elements max_abs_error=1.72e-7
+check leading logical feature axis: PASS 30 elements max_abs_error=1.72e-7
+check odd/layout input gradients: PASS 102 elements max_abs_error=1.75e-8
+check odd/layout weight gradients: PASS 85 elements max_abs_error=3.12e-8
+check odd/layout bias gradients: PASS 5 elements max_abs_error=2.01e-8
+check same-axis Linear: PASS 30 elements max_abs_error=1.72e-7
+ok
+test tests::parameter_versions_accumulation_and_shared_updates ... check leaf gradient accumulation: PASS 3 elements max_abs_error=7.95e-8
+check shared parameter updated once: PASS 3 elements max_abs_error=9.54e-8
+check failed step is atomic: PASS 3 elements max_abs_error=0.00e0
+check tied layer bias contributions: PASS 3 elements max_abs_error=1.99e-8
+check tied layer one update: PASS 3 elements max_abs_error=1.79e-8
+ok
+test tests::population_linear_and_axis_adam_keep_members_independent ... check population linear forward: PASS 8 elements max_abs_error=0.00e0
+check population linear input gradient: PASS 4 elements max_abs_error=0.00e0
+check population linear weight gradient: PASS 8 elements max_abs_error=0.00e0
+check population Adam rates: PASS 8 elements max_abs_error=2.38e-8
+check population shared targets: PASS 4 elements max_abs_error=8.00e-8
+ok
+test tests::shared_axes_contract_and_both_input_derivatives ... check shared-axis contraction: PASS 48 elements max_abs_error=3.08e-7
+check contraction left gradient: PASS 60 elements max_abs_error=6.21e-9
+check contraction right gradient: PASS 80 elements max_abs_error=4.35e-9
+ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 12 filtered out; finished in 18.52s
+
+   Doc-tests axis
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+real 18.84
+user 16.44
+sys 2.35

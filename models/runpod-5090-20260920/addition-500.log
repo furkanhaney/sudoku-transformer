@@ -1,0 +1,31 @@
+   Compiling addition v0.1.0 (/workspace/axis/src/addition)
+    Finished `release` profile [optimized] target(s) in 0.34s
+     Running `target/release/addition-train --steps 500`
+initial evaluation_mse=0.80632222
+step=1 samples=256 pre_update_mse=0.67623574
+step=100 samples=25600 pre_update_mse=0.00242190
+step=200 samples=51200 pre_update_mse=0.01286699
+step=300 samples=76800 pre_update_mse=0.00441917
+step=400 samples=102400 pre_update_mse=0.00270581
+step=500 samples=128000 pre_update_mse=0.00372967
+final evaluation_mse=0.00387844 elapsed_s=1.29
+IDR STATUS
+
+samples consumed:      128000
+unique sample IDs:     128000
+available population:  generated stream
+observed reuse:         0.0000%
+max observed reuse:     0.0000%
+
+PASS
+TRAIN/EVALUATION DISJOINTNESS
+
+unique training IDs:    128000
+unique evaluation IDs:  256
+observed overlap:        0
+
+PASS
+PASS: learned addition from fresh samples without epochs
+real 4.25
+user 3.77
+sys 0.86

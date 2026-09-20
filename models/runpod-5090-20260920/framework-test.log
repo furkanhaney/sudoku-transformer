@@ -1,0 +1,260 @@
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded autocfg v1.5.1
+  Downloaded anyhow v1.0.104
+  Downloaded cfg-if v1.0.5
+  Downloaded block-buffer v0.10.4
+  Downloaded crypto-common v0.1.7
+  Downloaded crossbeam-utils v0.8.23
+  Downloaded bitflags v2.13.2
+  Downloaded ar_archive_writer v0.5.3
+  Downloaded aho-corasick v1.1.5
+  Downloaded errno v0.3.14
+  Downloaded cuda-async v0.3.1
+  Downloaded futures-channel v0.3.34
+  Downloaded bindgen v0.69.5
+  Downloaded lazycell v1.3.0
+  Downloaded futures-io v0.3.34
+  Downloaded cuda-bindings v0.3.1
+  Downloaded either v1.18.0
+  Downloaded find-msvc-tools v0.1.13
+  Downloaded futures-executor v0.3.34
+  Downloaded generic-array v0.14.7
+  Downloaded foldhash v0.1.5
+  Downloaded cuda-core-derive v0.3.1
+  Downloaded dashmap v6.2.1
+  Downloaded digest v0.10.7
+  Downloaded rustc-hash v1.1.0
+  Downloaded futures-task v0.3.34
+  Downloaded futures v0.3.34
+  Downloaded half v2.7.1
+  Downloaded scopeguard v1.2.0
+  Downloaded futures-sink v0.3.34
+  Downloaded glob v0.3.4
+  Downloaded futures-core v0.3.34
+  Downloaded libloading v0.8.9
+  Downloaded phf_macros v0.11.3
+  Downloaded clang-sys v1.9.1
+  Downloaded itoa v1.0.18
+  Downloaded linkme-impl v0.3.37
+  Downloaded oxide-artifacts v0.2.1
+  Downloaded lazy_static v1.5.0
+  Downloaded phf_shared v0.11.3
+  Downloaded cpufeatures v0.2.17
+  Downloaded equivalent v1.0.2
+  Downloaded futures-macro v0.3.34
+  Downloaded psm v0.1.32
+  Downloaded siphasher v1.0.3
+  Downloaded phf v0.11.3
+  Downloaded lock_api v0.4.14
+  Downloaded home v0.5.12
+  Downloaded rustc-hash v2.1.3
+  Downloaded phf_generator v0.11.3
+  Downloaded sha2 v0.10.9
+  Downloaded slab v0.4.12
+  Downloaded which v4.4.2
+  Downloaded cexpr v0.6.0
+  Downloaded rand_core v0.6.4
+  Downloaded shlex v1.3.0
+  Downloaded convert_case v0.8.0
+  Downloaded cutile-ir v0.3.1
+  Downloaded crc32fast v1.5.2
+  Downloaded linkme v0.3.37
+  Downloaded smallvec v1.16.1
+  Downloaded stacker v0.1.25
+  Downloaded thiserror v1.0.69
+  Downloaded quote v1.0.47
+  Downloaded shlex v2.0.1
+  Downloaded parking_lot_core v0.9.12
+  Downloaded version_check v0.9.5
+  Downloaded getrandom v0.4.3
+  Downloaded indexmap v2.14.2
+  Downloaded once_cell v1.21.4
+  Downloaded unicode-ident v1.0.26
+  Downloaded zmij v1.0.23
+  Downloaded cuda-core v0.3.1
+  Downloaded prettyplease v0.2.37
+  Downloaded rand v0.8.8
+  Downloaded num-traits v0.2.19
+  Downloaded serde_core v1.0.229
+  Downloaded pin-project-lite v0.2.17
+  Downloaded serde_derive v1.0.229
+  Downloaded log v0.4.34
+  Downloaded hashbrown v0.15.5
+  Downloaded proc-macro2 v1.0.107
+  Downloaded itertools v0.12.1
+  Downloaded serde v1.0.229
+  Downloaded uuid v1.26.1
+  Downloaded cutile-macro v0.3.1
+  Downloaded cc v1.4.7
+  Downloaded memchr v2.8.3
+  Downloaded minimal-lexical v0.2.1
+  Downloaded nom v7.1.3
+  Downloaded itertools v0.14.0
+  Downloaded typenum v1.20.1
+  Downloaded zerocopy-derive v0.8.57
+  Downloaded hashbrown v0.14.5
+  Downloaded unicode-segmentation v1.13.3
+  Downloaded futures-util v0.3.34
+  Downloaded serde_json v1.0.151
+  Downloaded hashbrown v0.17.1
+  Downloaded regex v1.13.1
+  Downloaded cutile v0.3.1
+  Downloaded zerocopy v0.8.57
+  Downloaded cutile-compiler v0.3.1
+  Downloaded syn v2.0.119
+  Downloaded rustix v0.38.44
+  Downloaded regex-syntax v0.8.11
+  Downloaded object v0.36.7
+  Downloaded object v0.39.1
+  Downloaded regex-automata v0.4.18
+  Downloaded thiserror-impl v1.0.69
+  Downloaded libc v0.2.189
+  Downloaded linux-raw-sys v0.4.15
+  Downloaded syn v3.0.6
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.26
+   Compiling memchr v2.8.3
+   Compiling libc v0.2.189
+   Compiling cfg-if v1.0.5
+   Compiling glob v0.3.4
+   Compiling prettyplease v0.2.37
+   Compiling rustix v0.38.44
+   Compiling version_check v0.9.5
+   Compiling either v1.18.0
+   Compiling bitflags v2.13.2
+   Compiling linux-raw-sys v0.4.15
+   Compiling clang-sys v1.9.1
+   Compiling generic-array v0.14.7
+   Compiling regex-syntax v0.8.11
+   Compiling minimal-lexical v0.2.1
+   Compiling crc32fast v1.5.2
+   Compiling aho-corasick v1.1.5
+   Compiling zerocopy v0.8.57
+   Compiling nom v7.1.3
+   Compiling libloading v0.8.9
+   Compiling home v0.5.12
+   Compiling bindgen v0.69.5
+   Compiling syn v2.0.119
+   Compiling syn v3.0.6
+   Compiling shlex v2.0.1
+   Compiling find-msvc-tools v0.1.13
+   Compiling cc v1.4.7
+   Compiling regex-automata v0.4.18
+   Compiling cexpr v0.6.0
+   Compiling which v4.4.2
+   Compiling itertools v0.12.1
+   Compiling rustc-hash v1.1.0
+   Compiling shlex v1.3.0
+   Compiling lazy_static v1.5.0
+   Compiling object v0.36.7
+   Compiling object v0.39.1
+   Compiling log v0.4.34
+   Compiling lazycell v1.3.0
+   Compiling anyhow v1.0.104
+   Compiling parking_lot_core v0.9.12
+   Compiling crossbeam-utils v0.8.23
+   Compiling thiserror v1.0.69
+   Compiling cuda-core v0.3.1
+   Compiling getrandom v0.4.3
+   Compiling equivalent v1.0.2
+   Compiling hashbrown v0.17.1
+   Compiling regex v1.13.1
+   Compiling indexmap v2.14.2
+   Compiling futures-macro v0.3.34
+   Compiling stacker v0.1.25
+   Compiling linkme v0.3.37
+   Compiling futures-core v0.3.34
+   Compiling futures-sink v0.3.34
+   Compiling typenum v1.20.1
+   Compiling foldhash v0.1.5
+   Compiling linkme-impl v0.3.37
+   Compiling hashbrown v0.15.5
+   Compiling futures-channel v0.3.34
+   Compiling futures-io v0.3.34
+   Compiling futures-task v0.3.34
+   Compiling slab v0.4.12
+   Compiling pin-project-lite v0.2.17
+   Compiling zerocopy-derive v0.8.57
+   Compiling thiserror-impl v1.0.69
+   Compiling cuda-core-derive v0.3.1
+   Compiling futures-util v0.3.34
+   Compiling ar_archive_writer v0.5.3
+   Compiling smallvec v1.16.1
+   Compiling scopeguard v1.2.0
+   Compiling psm v0.1.32
+   Compiling siphasher v1.0.3
+   Compiling rand_core v0.6.4
+   Compiling cutile-compiler v0.3.1
+   Compiling phf_shared v0.11.3
+   Compiling rand v0.8.8
+   Compiling lock_api v0.4.14
+   Compiling futures-executor v0.3.34
+   Compiling block-buffer v0.10.4
+   Compiling crypto-common v0.1.7
+   Compiling oxide-artifacts v0.2.1
+   Compiling once_cell v1.21.4
+   Compiling cuda-bindings v0.3.1
+   Compiling serde_core v1.0.229
+   Compiling hashbrown v0.14.5
+   Compiling half v2.7.1
+   Compiling dashmap v6.2.1
+error: failed to run custom build command for `cuda-bindings v0.3.1`
+
+Caused by:
+  process didn't exit successfully: `/workspace/axis/target/release/build/cuda-bindings-fad4faae0e247259/build-script-build` (exit status: 101)
+  --- stdout
+  cargo:rerun-if-changed=wrapper.h
+  cargo:rerun-if-changed=toolkit_target.rs
+  cargo:rerun-if-env-changed=CUDA_TOOLKIT_PATH
+  cargo:rerun-if-env-changed=CUDA_HOME
+  cargo:rerun-if-env-changed=CUDA_TOOLKIT_TARGET_DIR
+  cargo:rerun-if-env-changed=CUTILE_SETUP_DIAGNOSTICS
+  cargo:rustc-env=CUTILE_RESOLVED_CUDA_TOOLKIT_PATH=/workspace/axis/.cuda
+  cargo::rustc-check-cfg=cfg(cuda_has_cuEventElapsedTime_v2)
+  cargo::rustc-check-cfg=cfg(cuda_has_cuLaunchHostFunc_v2)
+  cargo:rustc-cfg=cuda_has_cuEventElapsedTime_v2
+  cargo:rustc-cfg=cuda_has_cuLaunchHostFunc_v2
+  cargo:rerun-if-env-changed=TARGET
+  cargo:rerun-if-env-changed=BINDGEN_EXTRA_CLANG_ARGS_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=BINDGEN_EXTRA_CLANG_ARGS_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=BINDGEN_EXTRA_CLANG_ARGS
+  cargo:rerun-if-changed=wrapper.h
+
+  --- stderr
+
+  thread 'main' (2469) panicked at /root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bindgen-0.69.5/lib.rs:622:31:
+  Unable to find libclang: "couldn't find any valid shared libraries matching: ['libclang.so', 'libclang-*.so', 'libclang.so.*', 'libclang-*.so.*'], set the `LIBCLANG_PATH` environment variable to a path where one of these files can be found (invalid: [])"
+  note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+warning: build failed, waiting for other jobs to finish...
+error: failed to run custom build command for `cuda-bindings v0.3.1`
+
+Caused by:
+  process didn't exit successfully: `/workspace/axis/target/release/build/cuda-bindings-fad4faae0e247259/build-script-build` (exit status: 101)
+  --- stdout
+  cargo:rerun-if-changed=wrapper.h
+  cargo:rerun-if-changed=toolkit_target.rs
+  cargo:rerun-if-env-changed=CUDA_TOOLKIT_PATH
+  cargo:rerun-if-env-changed=CUDA_HOME
+  cargo:rerun-if-env-changed=CUDA_TOOLKIT_TARGET_DIR
+  cargo:rerun-if-env-changed=CUTILE_SETUP_DIAGNOSTICS
+  cargo:rustc-env=CUTILE_RESOLVED_CUDA_TOOLKIT_PATH=/workspace/axis/.cuda
+  cargo::rustc-check-cfg=cfg(cuda_has_cuEventElapsedTime_v2)
+  cargo::rustc-check-cfg=cfg(cuda_has_cuLaunchHostFunc_v2)
+  cargo:rustc-cfg=cuda_has_cuEventElapsedTime_v2
+  cargo:rustc-cfg=cuda_has_cuLaunchHostFunc_v2
+  cargo:rerun-if-env-changed=TARGET
+  cargo:rerun-if-env-changed=BINDGEN_EXTRA_CLANG_ARGS_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=BINDGEN_EXTRA_CLANG_ARGS_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=BINDGEN_EXTRA_CLANG_ARGS
+  cargo:rerun-if-changed=wrapper.h
+
+  --- stderr
+
+  thread 'main' (2472) panicked at /root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/bindgen-0.69.5/lib.rs:622:31:
+  Unable to find libclang: "couldn't find any valid shared libraries matching: ['libclang.so', 'libclang-*.so', 'libclang.so.*', 'libclang-*.so.*'], set the `LIBCLANG_PATH` environment variable to a path where one of these files can be found (invalid: [])"
+  note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+real 8.46
+user 38.91
+sys 7.95

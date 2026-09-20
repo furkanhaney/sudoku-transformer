@@ -1,0 +1,7 @@
+    Finished `release` profile [optimized] target(s) in 0.06s
+     Running `target/release/sudoku-transformer --steps 200 --batch 8 --eval-size 64 --embedding 12 --heads 3 --layers 1 --blanks 36 --learning-rate 3e-3 --weight-decay 1e-2`
+model bidirectional-transformer layers=1 embedding=12 heads=3 parameters=3129
+Error: "index plan must have 1..=16777216 contributions (experimental backend limit)"
+real 3.69
+user 2.77
+sys 0.90
